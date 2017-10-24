@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\NServiceBus.snk</AssemblyOriginatorKeyFile>    
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>NServiceBus.UniformSession</PackageId>
+    <Description>A uniform session which unifies the common operations of message session and handler context.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NServiceBus" Version="6.*" />
+    <PackageReference Include="Particular.Packaging" Version="0.1.0" PrivateAssets="All" />
+  </ItemGroup>
+
+    <!--Workaround for https://github.com/dotnet/sdk/issues/1469 -->
+  <PropertyGroup>
+    <DisableLockFileFrameworks>true</DisableLockFileFrameworks>
+  </PropertyGroup>
+  <!-- End Workaround -->
+
+  <!-- Workaround for GitVersion 4.0 not creating GitVersionInformation by default -->
+  <PropertyGroup>
+    <UpdateAssemblyInfo>true</UpdateAssemblyInfo>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+  </PropertyGroup>
+  <!-- End Workaround -->
+
+  <Import Project="../GitVersionWorkaround.targets" />
+  
+</Project>
