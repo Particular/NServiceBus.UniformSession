@@ -18,6 +18,8 @@ class CurrentSessionHolder
         }
     }
 
+    public bool ActiveSessionFromPipeline => Current != null && Current != messageSession;
+
     public IDisposable SetCurrentPipelineContext(IIncomingPhysicalMessageContext context)
     {
         if (pipelineContext.Value != null)
@@ -36,7 +38,7 @@ class CurrentSessionHolder
             throw new InvalidOperationException("Attempt to overwrite an existing message session in BusSession.Current.");
         }
 
-        messageSession = new MessageSession(session);
+        messageSession = new MessageSession(session, this);
         return new SessionScope(this);
     }
 
