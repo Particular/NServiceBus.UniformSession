@@ -1,0 +1,23 @@
+﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.6.1", FrameworkDisplayName=".NET Framework 4.6.1")]
+namespace NServiceBus.UniformSession
+{
+    public interface IUniformSession
+    {
+        System.Threading.Tasks.Task Publish(object message, NServiceBus.PublishOptions options);
+        System.Threading.Tasks.Task Publish<T>(System.Action<T> messageConstructor, NServiceBus.PublishOptions publishOptions);
+        System.Threading.Tasks.Task Send(object message, NServiceBus.SendOptions options);
+        System.Threading.Tasks.Task Send<T>(System.Action<T> messageConstructor, NServiceBus.SendOptions options);
+    }
+    public class static UniformSessionExtensions
+    {
+        public static System.Threading.Tasks.Task Publish(this NServiceBus.UniformSession.IUniformSession session, object message) { }
+        public static System.Threading.Tasks.Task Publish<T>(this NServiceBus.UniformSession.IUniformSession session) { }
+        public static System.Threading.Tasks.Task Publish<T>(this NServiceBus.UniformSession.IUniformSession session, System.Action<T> messageConstructor) { }
+        public static System.Threading.Tasks.Task Send(this NServiceBus.UniformSession.IUniformSession session, object message) { }
+        public static System.Threading.Tasks.Task Send<T>(this NServiceBus.UniformSession.IUniformSession session, System.Action<T> messageConstructor) { }
+        public static System.Threading.Tasks.Task Send(this NServiceBus.UniformSession.IUniformSession session, string destination, object message) { }
+        public static System.Threading.Tasks.Task Send<T>(this NServiceBus.UniformSession.IUniformSession session, string destination, System.Action<T> messageConstructor) { }
+        public static System.Threading.Tasks.Task SendLocal(this NServiceBus.UniformSession.IUniformSession session, object message) { }
+        public static System.Threading.Tasks.Task SendLocal<T>(this NServiceBus.UniformSession.IUniformSession session, System.Action<T> messageConstructor) { }
+    }
+}
