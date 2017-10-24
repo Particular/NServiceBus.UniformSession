@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using NServiceBus.Pipeline;
-
-namespace NServiceBus.AmbientSession
+﻿namespace NServiceBus.UniformSession
 {
+    using System;
+    using System.Threading.Tasks;
+    using Pipeline;
+
     class RegisterCurrentSessionBehavior : IBehavior<IIncomingPhysicalMessageContext, IIncomingPhysicalMessageContext>
     {
         private readonly CurrentSessionHolder sessionHolder;

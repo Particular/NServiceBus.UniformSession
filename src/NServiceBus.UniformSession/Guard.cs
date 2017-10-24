@@ -1,4 +1,4 @@
-﻿namespace NServiceBus
+﻿namespace NServiceBus.UniformSession
 {
     using System;
     using System.Collections;

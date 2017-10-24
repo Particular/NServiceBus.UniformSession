@@ -1,9 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace NServiceBus.AmbientSession
+﻿namespace NServiceBus.UniformSession
 {
-    public interface IBusSession
+    using System;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// A uniform session which unifies the common operations of message session and handler context.
+    /// </summary>
+    public interface IUniformSession
     {
         /// <summary>
         /// Sends the provided message.

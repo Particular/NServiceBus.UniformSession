@@ -1,16 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace NServiceBus.AmbientSession
+﻿namespace NServiceBus.UniformSession
 {
-    public class MessageSession : IBusSession, IDisposable
+    using System;
+    using System.Threading.Tasks;
+
+    class MessageSession : IUniformSession, IDisposable
     {
-        private static readonly string AccessDisposedSessionExceptionMessage = $"This session has been disposed and can no longer send messages. Ensure to not cache instances {nameof(IBusSession)}.";
-
-        private readonly IMessageSession messageSession;
-
-        private bool isDisposed;
-
         public MessageSession(IMessageSession messageSession)
         {
             this.messageSession = messageSession;
@@ -45,10 +39,17 @@ namespace NServiceBus.AmbientSession
             isDisposed = true;
         }
 
-        private void ThrowIfDisposed()
+        void ThrowIfDisposed()
         {
             if (isDisposed)
+            {
                 throw new InvalidOperationException(AccessDisposedSessionExceptionMessage);
+            }
         }
+
+        readonly IMessageSession messageSession;
+
+        bool isDisposed;
+        static readonly string AccessDisposedSessionExceptionMessage = $"This session has been disposed and can no longer send messages. Ensure to not cache instances {nameof(IUniformSession)}.";
     }
 }

@@ -1,15 +1,12 @@
-using System;
-using System.Threading;
-using NServiceBus.Pipeline;
-
-namespace NServiceBus.AmbientSession
+namespace NServiceBus.UniformSession
 {
+    using System;
+    using System.Threading;
+    using Pipeline;
+
     class CurrentSessionHolder
     {
-        private MessageSession messageSession;
-        private readonly AsyncLocal<PipelineContextSession> pipelineContext = new AsyncLocal<PipelineContextSession>();
-
-        public IBusSession Current
+        public IUniformSession Current
         {
             get
             {
@@ -32,21 +29,22 @@ namespace NServiceBus.AmbientSession
             return new ContextSCope(this);
         }
 
-        public IDisposable SetMessageSession(IMessageSession messageSession)
+        public IDisposable SetMessageSession(IMessageSession session)
         {
-            if (this.messageSession != null)
+            if (messageSession != null)
             {
                 throw new InvalidOperationException("Attempt to overwrite an existing message session in BusSession.Current.");
             }
 
-            this.messageSession = new MessageSession(messageSession);
+            messageSession = new MessageSession(session);
             return new SessionScope(this);
         }
 
+        readonly AsyncLocal<PipelineContextSession> pipelineContext = new AsyncLocal<PipelineContextSession>();
+        MessageSession messageSession;
+
         class ContextSCope : IDisposable
         {
-            private readonly CurrentSessionHolder sessionHolder;
-
             public ContextSCope(CurrentSessionHolder sessionHolder)
             {
                 this.sessionHolder = sessionHolder;
@@ -57,12 +55,12 @@ namespace NServiceBus.AmbientSession
                 sessionHolder.pipelineContext.Value.Dispose();
                 sessionHolder.pipelineContext.Value = null;
             }
+
+            readonly CurrentSessionHolder sessionHolder;
         }
 
         class SessionScope : IDisposable
         {
-            private readonly CurrentSessionHolder sessionHolder;
-
             public SessionScope(CurrentSessionHolder sessionHolder)
             {
                 this.sessionHolder = sessionHolder;
@@ -73,6 +71,8 @@ namespace NServiceBus.AmbientSession
                 sessionHolder.messageSession.Dispose();
                 sessionHolder.messageSession = null;
             }
+
+            readonly CurrentSessionHolder sessionHolder;
         }
     }
 }

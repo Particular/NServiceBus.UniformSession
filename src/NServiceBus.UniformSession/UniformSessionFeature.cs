@@ -1,31 +1,28 @@
-﻿using System;
-using System.Threading.Tasks;
-using NServiceBus.Features;
-
-namespace NServiceBus.AmbientSession
+﻿namespace NServiceBus.UniformSession
 {
-    public class AmbietSessionFeature : Feature
-    {
-        CurrentSessionHolder sessionHolder = new CurrentSessionHolder();
+    using System;
+    using System.Threading.Tasks;
+    using Features;
 
-        public AmbietSessionFeature()
+    class UniformSessionFeature : Feature
+    {
+        public UniformSessionFeature()
         {
             EnableByDefault();
         }
 
         protected override void Setup(FeatureConfigurationContext context)
         {
-            context.Pipeline.Register(new RegisterCurrentSessionBehavior(sessionHolder), "register the current session in the ambiet bus session.");
+            context.Pipeline.Register(new RegisterCurrentSessionBehavior(sessionHolder), "Enables floating of uniform session.");
             context.RegisterStartupTask(new RegisterSessionStartupTask(sessionHolder));
 
-            context.Container.ConfigureComponent<IBusSession>(() => sessionHolder.Current, DependencyLifecycle.InstancePerCall);
+            context.Container.ConfigureComponent(() => sessionHolder.Current, DependencyLifecycle.InstancePerCall);
         }
 
-        private class RegisterSessionStartupTask : FeatureStartupTask
-        {
-            private readonly CurrentSessionHolder sessionHolder;
-            IDisposable scope;
+        CurrentSessionHolder sessionHolder = new CurrentSessionHolder();
 
+        class RegisterSessionStartupTask : FeatureStartupTask
+        {
             public RegisterSessionStartupTask(CurrentSessionHolder sessionHolder)
             {
                 this.sessionHolder = sessionHolder;
@@ -42,6 +39,9 @@ namespace NServiceBus.AmbientSession
                 scope.Dispose();
                 return Task.CompletedTask;
             }
+
+            readonly CurrentSessionHolder sessionHolder;
+            IDisposable scope;
         }
     }
 }

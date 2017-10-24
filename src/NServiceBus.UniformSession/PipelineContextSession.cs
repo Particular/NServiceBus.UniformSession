@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace NServiceBus.AmbientSession
+﻿namespace NServiceBus.UniformSession
 {
-    class PipelineContextSession : IBusSession, IDisposable
+    using System;
+    using System.Threading.Tasks;
+
+    class PipelineContextSession : IUniformSession, IDisposable
     {
-        private static readonly string AccessDisposedSessionExceptionMessage = $"This session has been disposed and can no longer send messages. Ensure to not cache instances {nameof(IBusSession)}.";
+        private static readonly string AccessDisposedSessionExceptionMessage = $"This session has been disposed and can no longer send messages. Ensure to not cache instances {nameof(IUniformSession)}.";
 
         private readonly IPipelineContext pipelineContext;
 
