@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461</TargetFrameworks>
+    <NoWarn>$(NoWarn);PCR0001</NoWarn>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UniformSession\NServiceBus.UniformSession.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" PrivateAssets="All" />
+    <PackageReference Include="NUnit" Version="[3.7.1, 4.0.0)" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0-alpha1" PrivateAssets="All" />
+    <PackageReference Include="Particular.CodeRules" Version="0.2.0" PrivateAssets="All" />
+    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="6.*" />    
+    <PackageReference Include="NServiceBus.AcceptanceTests.Sources" Version="6.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="$(NuGetPackageRoot)**\\ConfigureEndpointInMemoryPersistence.cs" />
+    <Compile Remove="$(NuGetPackageRoot)**\\ConfigureEndpointMsmqTransport.cs" />
+    <Compile Remove="$(NuGetPackageRoot)**\\DeterministicGuid.cs" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Audit\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Correlation\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\DataBus\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\DelayedDelivery\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Forwarding\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\MessageId\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Pipeline\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Recoverability\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Routing\**" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Satellites\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Scheduling\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\SelfVerification\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Serialization\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Sagas\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Outbox\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Timeout\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\TimeToBeReceived\*" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Tx\**" />
+    <Compile Remove="$(NuGetPackageRoot)**\\Versioning\*" />
+  </ItemGroup>
+</Project>
