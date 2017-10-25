@@ -25,14 +25,14 @@
             StringAssert.Contains("This session is being used inside the message handling pipeline which can lead to message loss.", ctx.SendException.Message);
         }
 
-        public class Context : ScenarioContext
+        class Context : ScenarioContext
         {
-            public bool Message1Received { get; set; }
-            public bool Message2Received { get; set; }
-            public InvalidOperationException SendException { get; set; }
+            public bool Message1Received;
+            public bool Message2Received;
+            public InvalidOperationException SendException;
         }
 
-        public class EndpointCachingSession : EndpointConfigurationBuilder
+        class EndpointCachingSession : EndpointConfigurationBuilder
         {
             public EndpointCachingSession()
             {
@@ -56,9 +56,6 @@
 
                 class SessionStartupTask : FeatureStartupTask
                 {
-                    // ReSharper disable once NotAccessedField.Local
-                    SingletonService service;
-
                     public SessionStartupTask(SingletonService service)
                     {
                         // The service will get an IMessageSession based session which will be cached by the singleton
@@ -74,14 +71,14 @@
                     {
                         return Task.CompletedTask;
                     }
+
+                    // ReSharper disable once NotAccessedField.Local
+                    SingletonService service;
                 }
             }
 
             public class Handler1 : IHandleMessages<Message1>
             {
-                Context testContext;
-                SingletonService service;
-
                 public Handler1(Context testContext, SingletonService service)
                 {
                     this.testContext = testContext;
@@ -100,12 +97,13 @@
                         testContext.SendException = e;
                     }
                 }
+
+                Context testContext;
+                SingletonService service;
             }
 
             public class Handler2 : IHandleMessages<Message2>
             {
-                Context testContext;
-
                 public Handler2(Context testContext)
                 {
                     this.testContext = testContext;
@@ -116,12 +114,12 @@
                     testContext.Message2Received = true;
                     return Task.CompletedTask;
                 }
+
+                Context testContext;
             }
 
             public class SingletonService
             {
-                IUniformSession session;
-
                 public SingletonService(IUniformSession session)
                 {
                     this.session = session;
@@ -131,6 +129,8 @@
                 {
                     return session.SendLocal(message);
                 }
+
+                IUniformSession session;
             }
         }
 

@@ -25,15 +25,15 @@
             StringAssert.Contains("This session has been disposed and can no longer send messages.", ctx.SendException.Message);
         }
 
-        public class Context : ScenarioContext
+        class Context : ScenarioContext
         {
-            public bool Message1Received { get; set; }
-            public bool Message2Received { get; set; }
-            public bool Message3Received { get; set; }
-            public InvalidOperationException SendException { get; set; }
+            public bool Message1Received;
+            public bool Message2Received;
+            public bool Message3Received;
+            public InvalidOperationException SendException;
         }
 
-        public class EndpointCachingSession : EndpointConfigurationBuilder
+        class EndpointCachingSession : EndpointConfigurationBuilder
         {
             public EndpointCachingSession()
             {
@@ -44,9 +44,6 @@
 
             public class Handler1 : IHandleMessages<Message1>
             {
-                Context testContext;
-                SingletonService service;
-
                 public Handler1(Context testContext, SingletonService service)
                 {
                     this.testContext = testContext;
@@ -58,13 +55,13 @@
                     testContext.Message1Received = true;
                     return service.SendLocal(new Message2());
                 }
+
+                Context testContext;
+                SingletonService service;
             }
 
             public class Handler2 : IHandleMessages<Message2>
             {
-                Context testContext;
-                SingletonService service;
-
                 public Handler2(Context testContext, SingletonService service)
                 {
                     this.testContext = testContext;
@@ -83,12 +80,13 @@
                         testContext.SendException = e;
                     }
                 }
+
+                Context testContext;
+                SingletonService service;
             }
 
             public class Handler3 : IHandleMessages<Message3>
             {
-                Context testContext;
-
                 public Handler3(Context testContext)
                 {
                     this.testContext = testContext;
@@ -99,12 +97,12 @@
                     testContext.Message3Received = true;
                     return Task.CompletedTask;
                 }
+
+                Context testContext;
             }
 
             public class SingletonService
             {
-                IUniformSession session;
-
                 public SingletonService(IUniformSession session)
                 {
                     this.session = session;
@@ -114,6 +112,8 @@
                 {
                     return session.SendLocal(message);
                 }
+
+                IUniformSession session;
             }
         }
 

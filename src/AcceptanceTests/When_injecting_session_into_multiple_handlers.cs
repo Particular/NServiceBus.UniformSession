@@ -22,8 +22,8 @@
 
         class Context : ScenarioContext
         {
-            public IUniformSession Handler1Session { get; set; }
-            public IUniformSession Handler2Session { get; set; }
+            public IUniformSession Handler1Session;
+            public IUniformSession Handler2Session;
         }
 
         class EndpointWithMultipleHandlers : EndpointConfigurationBuilder
