@@ -1,6 +1,6 @@
 ﻿namespace NServiceBus.AcceptanceTests
 {
-    using System.Threading;
+    using System;
     using System.Threading.Tasks;
     using AcceptanceTesting;
     using EndpointTemplates;
@@ -8,25 +8,24 @@
     using NUnit.Framework;
     using UniformSession;
 
-    public class When_injecting_session_outside_pipeline : NServiceBusAcceptanceTest
+    public class When_sending_from_cached_message_session_after_shutdown : NServiceBusAcceptanceTest
     {
         [Test]
-        public async Task Should_resolve_IMessageSession_based_session()
+        public async Task Should_throw_when_sending()
         {
             var ctx = await Scenario.Define<Context>()
                 .WithEndpoint<EndpointWithStartupTask>()
-                .Done(c => c.HandlerInvocationCounter >= 2)
+                .Done(c => c.EndpointsStarted)
                 .Run();
 
-            Assert.AreSame(ctx.StartupUniformSession, ctx.ShutdownUniformSession);
-            Assert.AreEqual(2, ctx.HandlerInvocationCounter);
+            Assert.NotNull(ctx.StartupUniformSession);
+            var exception = Assert.ThrowsAsync<InvalidOperationException>(() => ctx.StartupUniformSession.SendLocal(new MyMessage()));
+            StringAssert.Contains("This session has been disposed and can no longer send messages.", exception.Message);
         }
 
         class Context : ScenarioContext
         {
-            public int HandlerInvocationCounter;
             public IUniformSession StartupUniformSession;
-            public IUniformSession ShutdownUniformSession;
         }
 
         class EndpointWithStartupTask : EndpointConfigurationBuilder
@@ -52,16 +51,14 @@
                         this.testContext = testContext;
                     }
 
-                    protected override async Task OnStart(IMessageSession session)
+                    protected override Task OnStart(IMessageSession session)
                     {
                         testContext.StartupUniformSession = uniformSession;
-                        await session.SendLocal(new DemoMessage());
-                        await uniformSession.SendLocal(new DemoMessage());
+                        return Task.CompletedTask;
                     }
 
                     protected override Task OnStop(IMessageSession session)
                     {
-                        testContext.ShutdownUniformSession = uniformSession;
                         return Task.CompletedTask;
                     }
 
@@ -69,26 +66,10 @@
                     Context testContext;
                 }
             }
+        }
 
-            class DemoMessageHandler : IHandleMessages<DemoMessage>
-            {
-                public DemoMessageHandler(Context testContext)
-                {
-                    this.testContext = testContext;
-                }
-
-                public Task Handle(DemoMessage message, IMessageHandlerContext context)
-                {
-                    Interlocked.Increment(ref testContext.HandlerInvocationCounter);
-                    return Task.CompletedTask;
-                }
-
-                Context testContext;
-            }
-
-            public class DemoMessage : IMessage
-            {
-            }
+        public class MyMessage : IMessage
+        {
         }
     }
 }

@@ -21,15 +21,15 @@
             Assert.AreSame(ctx.HandlerSession, ctx.ServiceBSession);
         }
 
-        public class Context : ScenarioContext
+        class Context : ScenarioContext
         {
-            public IUniformSession HandlerSession { get; set; }
-            public IUniformSession ServiceASession { get; set; }
-            public IUniformSession ServiceBSession { get; set; }
-            public bool MessageHandled { get; set; }
+            public IUniformSession HandlerSession;
+            public IUniformSession ServiceASession;
+            public IUniformSession ServiceBSession;
+            public bool MessageHandled;
         }
 
-        public class EndpointWithServices : EndpointConfigurationBuilder
+        class EndpointWithServices : EndpointConfigurationBuilder
         {
             public EndpointWithServices()
             {
@@ -42,10 +42,6 @@
 
             public class DummyMessageHandler : IHandleMessages<DummyMessage>
             {
-                Context testContext;
-                IUniformSession session;
-                ServiceA serviceA;
-
                 public DummyMessageHandler(Context testContext, IUniformSession session, ServiceA serviceA)
                 {
                     this.testContext = testContext;
@@ -60,14 +56,14 @@
                     testContext.MessageHandled = true;
                     return Task.CompletedTask;
                 }
+
+                Context testContext;
+                IUniformSession session;
+                ServiceA serviceA;
             }
 
             public class ServiceA
             {
-                Context testContext;
-                IUniformSession session;
-                ServiceB serviceB;
-
                 public ServiceA(Context testContext, IUniformSession session, ServiceB serviceB)
                 {
                     this.testContext = testContext;
@@ -80,13 +76,14 @@
                     testContext.ServiceASession = session;
                     serviceB.InvokeService();
                 }
+
+                Context testContext;
+                IUniformSession session;
+                ServiceB serviceB;
             }
 
             public class ServiceB
             {
-                Context testContext;
-                IUniformSession session;
-
                 public ServiceB(Context testContext, IUniformSession session)
                 {
                     this.testContext = testContext;
@@ -97,6 +94,9 @@
                 {
                     testContext.ServiceBSession = session;
                 }
+
+                Context testContext;
+                IUniformSession session;
             }
         }
 

@@ -44,14 +44,14 @@
             Assert.IsFalse(ctx.FollowupCommandReceived);
         }
 
-        public class Context : ScenarioContext
+        class Context : ScenarioContext
         {
-            public bool StartCommandReceived { get; set; }
-            public bool FollowupCommandReceived { get; set; }
-            public bool ExceptionThrown { get; set; }
+            public bool StartCommandReceived;
+            public bool FollowupCommandReceived;
+            public bool ExceptionThrown;
         }
 
-        public class EndpointWithMultipleMessages : EndpointConfigurationBuilder
+        class EndpointWithMultipleMessages : EndpointConfigurationBuilder
         {
             public EndpointWithMultipleMessages()
             {
@@ -60,9 +60,6 @@
 
             public class StartCommandHandler : IHandleMessages<StartCommand>
             {
-                Context testContext;
-                IUniformSession uniformSession;
-
                 public StartCommandHandler(Context testContext, IUniformSession uniformSession)
                 {
                     this.testContext = testContext;
@@ -74,12 +71,13 @@
                     await uniformSession.SendLocal(new FollowupCommand());
                     testContext.StartCommandReceived = true;
                 }
+
+                Context testContext;
+                IUniformSession uniformSession;
             }
 
             public class FailPipelineBehavior : Behavior<ITransportReceiveContext>
             {
-                Context testContext;
-
                 public FailPipelineBehavior(Context testContext)
                 {
                     this.testContext = testContext;
@@ -96,12 +94,12 @@
                         throw new Exception("test");
                     }
                 }
+
+                Context testContext;
             }
 
             public class FollowupCommandHandler : IHandleMessages<FollowupCommand>
             {
-                Context testContext;
-
                 public FollowupCommandHandler(Context testContext)
                 {
                     this.testContext = testContext;
@@ -112,6 +110,8 @@
                     testContext.FollowupCommandReceived = true;
                     return Task.CompletedTask;
                 }
+
+                Context testContext;
             }
         }
 
