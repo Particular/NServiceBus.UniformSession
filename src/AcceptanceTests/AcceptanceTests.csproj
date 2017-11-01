@@ -10,20 +10,14 @@
     <ProjectReference Include="..\UniformSession\NServiceBus.UniformSession.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Transactions" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="NServiceBus.AcceptanceTests.Sources" Version="7.0.0-*" />
+    <PackageReference Include="NUnit" Version="3.7.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0-alpha1" />
+    <PackageReference Include="Particular.CodeRules" Version="0.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" PrivateAssets="All" />
-    <PackageReference Include="NUnit" Version="[3.7.1, 4.0.0)" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0-alpha1" PrivateAssets="All" />
-    <PackageReference Include="Particular.CodeRules" Version="0.2.0" PrivateAssets="All" />
-    <PackageReference Include="NServiceBus.AcceptanceTesting" Version="7.0.0-*" />
-    <PackageReference Include="NServiceBus.AcceptanceTests.Sources" Version="7.0.0-*" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Remove="$(NuGetPackageRoot)**\\ConfigureEndpointInMemoryPersistence.cs" />
     <Compile Remove="$(NuGetPackageRoot)**\\ConfigureEndpointMsmqTransport.cs" />
@@ -48,4 +42,5 @@
     <Compile Remove="$(NuGetPackageRoot)**\\Tx\**" />
     <Compile Remove="$(NuGetPackageRoot)**\\Versioning\*" />
   </ItemGroup>
+
 </Project>
