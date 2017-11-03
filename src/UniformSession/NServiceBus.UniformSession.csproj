@@ -1,36 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\NServiceBus.snk</AssemblyOriginatorKeyFile>    
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageId>NServiceBus.UniformSession</PackageId>
+    <AssemblyOriginatorKeyFile>..\NServiceBus.snk</AssemblyOriginatorKeyFile>
     <Description>A uniform session which unifies the common operations of message session and handler context.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NServiceBus" Version="7.0.0-*" />
+    <PackageReference Include="NServiceBus" Version="[7.0.0-*, 8.0.0)" />
+    <PackageReference Include="Particular.CodeRules" Version="0.2.0" PrivateAssets="All" />
     <PackageReference Include="Particular.Packaging" Version="0.1.0" PrivateAssets="All" />
   </ItemGroup>
 
-    <!--Workaround for https://github.com/dotnet/sdk/issues/1469 -->
-  <PropertyGroup>
-    <DisableLockFileFrameworks>true</DisableLockFileFrameworks>
-  </PropertyGroup>
-  <!-- End Workaround -->
+  <ItemGroup>
+    <PackageReference Include="SourceLink.Create.GitHub" Version="2.5.0" PrivateAssets="All" />
+    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.5.0" />
+  </ItemGroup>
 
-  <!-- Workaround for GitVersion 4.0 not creating GitVersionInformation by default -->
-  <PropertyGroup>
-    <UpdateAssemblyInfo>true</UpdateAssemblyInfo>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-  </PropertyGroup>
-  <!-- End Workaround -->
-
-  <Import Project="../GitVersionWorkaround.targets" />
-  
 </Project>
