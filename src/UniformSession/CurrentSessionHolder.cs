@@ -54,7 +54,7 @@ class CurrentSessionHolder
 
         public void Dispose()
         {
-            sessionHolder.pipelineContext.Value.Dispose();
+            sessionHolder.pipelineContext.Value.MarkAsUnusable();
             sessionHolder.pipelineContext.Value = null;
         }
 
@@ -70,7 +70,7 @@ class CurrentSessionHolder
 
         public void Dispose()
         {
-            sessionHolder.messageSession.Dispose();
+            sessionHolder.messageSession.MarkAsUnusable();
             sessionHolder.messageSession = null;
         }
 

@@ -3,58 +3,58 @@ using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBus.UniformSession;
 
-class PipelineContextSession : IUniformSession, IDisposable
+class PipelineContextSession : IUniformSession
 {
     public PipelineContextSession(IPipelineContext pipelineContext)
     {
-        ThrowIfDisposed();
+        ThrowIfUnusable();
 
         this.pipelineContext = pipelineContext;
     }
 
-    public void Dispose()
+    public void MarkAsUnusable()
     {
-        isDisposed = true;
+        unusable = true;
     }
 
     public Task Send(object message, SendOptions options)
     {
-        ThrowIfDisposed();
+        ThrowIfUnusable();
 
         return pipelineContext.Send(message, options);
     }
 
     public Task Send<T>(Action<T> messageConstructor, SendOptions options)
     {
-        ThrowIfDisposed();
+        ThrowIfUnusable();
 
         return pipelineContext.Send(messageConstructor, options);
     }
 
     public Task Publish(object message, PublishOptions options)
     {
-        ThrowIfDisposed();
+        ThrowIfUnusable();
 
         return pipelineContext.Publish(message, options);
     }
 
     public Task Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions)
     {
-        ThrowIfDisposed();
+        ThrowIfUnusable();
 
         return pipelineContext.Publish(messageConstructor, publishOptions);
     }
 
-    void ThrowIfDisposed()
+    void ThrowIfUnusable()
     {
-        if (isDisposed)
+        if (unusable)
         {
-            throw new InvalidOperationException(AccessDisposedSessionExceptionMessage);
+            throw new InvalidOperationException(AccessUnusableSessionExceptionMessage);
         }
     }
 
     readonly IPipelineContext pipelineContext;
 
-    bool isDisposed;
-    static readonly string AccessDisposedSessionExceptionMessage = $"This session has been disposed and can no longer send messages. Ensure to not cache instances {nameof(IUniformSession)}.";
+    bool unusable;
+    static readonly string AccessUnusableSessionExceptionMessage = $"This session has been marked as no longer usable and can no longer send messages. Ensure to not cache instances {nameof(IUniformSession)}.";
 }

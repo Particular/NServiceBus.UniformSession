@@ -20,7 +20,7 @@
 
             Assert.NotNull(ctx.StartupUniformSession);
             var exception = Assert.ThrowsAsync<InvalidOperationException>(() => ctx.StartupUniformSession.SendLocal(new MyMessage()));
-            StringAssert.Contains("This session has been disposed and can no longer send messages.", exception.Message);
+            StringAssert.Contains("This session has been marked as no longer usable and can no longer send messages.", exception.Message);
         }
 
         class Context : ScenarioContext
