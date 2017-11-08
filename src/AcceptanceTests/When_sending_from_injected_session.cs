@@ -55,7 +55,7 @@
         {
             public EndpointWithMultipleMessages()
             {
-                EndpointSetup<DefaultServer>();
+                EndpointSetup<DefaultServer>(e => e.EnableUniformSession());
             }
 
             public class StartCommandHandler : IHandleMessages<StartCommand>

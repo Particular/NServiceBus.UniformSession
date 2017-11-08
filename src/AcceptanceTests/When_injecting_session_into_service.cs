@@ -33,11 +33,16 @@
         {
             public EndpointWithServices()
             {
-                EndpointSetup<DefaultServer>(e => e.RegisterComponents(r =>
+                EndpointSetup<DefaultServer>(e =>
                 {
-                    r.ConfigureComponent<ServiceA>(DependencyLifecycle.InstancePerCall);
-                    r.ConfigureComponent<ServiceB>(DependencyLifecycle.InstancePerUnitOfWork);
-                }));
+                    e.EnableUniformSession();
+
+                    e.RegisterComponents(r =>
+                    {
+                        r.ConfigureComponent<ServiceA>(DependencyLifecycle.InstancePerCall);
+                        r.ConfigureComponent<ServiceB>(DependencyLifecycle.InstancePerUnitOfWork);
+                    });
+                });
             }
 
             public class DummyMessageHandler : IHandleMessages<DummyMessage>

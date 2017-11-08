@@ -32,7 +32,12 @@
         {
             public EndpointWithStartupTask()
             {
-                EndpointSetup<DefaultServer>(e => e.EnableFeature<FeatureWithStartupTask>());
+                EndpointSetup<DefaultServer>(e =>
+                {
+                    e.EnableUniformSession();
+
+                    e.EnableFeature<FeatureWithStartupTask>();
+                });
             }
 
             class FeatureWithStartupTask : Feature
