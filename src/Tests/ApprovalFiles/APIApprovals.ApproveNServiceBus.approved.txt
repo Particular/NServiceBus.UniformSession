@@ -8,7 +8,7 @@ namespace NServiceBus.UniformSession
         System.Threading.Tasks.Task Send(object message, NServiceBus.SendOptions options);
         System.Threading.Tasks.Task Send<T>(System.Action<T> messageConstructor, NServiceBus.SendOptions options);
     }
-    public class static UniformSessionExtensions
+    public class static IUniformSessionExtensions
     {
         public static System.Threading.Tasks.Task Publish(this NServiceBus.UniformSession.IUniformSession session, object message) { }
         public static System.Threading.Tasks.Task Publish<T>(this NServiceBus.UniformSession.IUniformSession session) { }
@@ -19,5 +19,12 @@ namespace NServiceBus.UniformSession
         public static System.Threading.Tasks.Task Send<T>(this NServiceBus.UniformSession.IUniformSession session, string destination, System.Action<T> messageConstructor) { }
         public static System.Threading.Tasks.Task SendLocal(this NServiceBus.UniformSession.IUniformSession session, object message) { }
         public static System.Threading.Tasks.Task SendLocal<T>(this NServiceBus.UniformSession.IUniformSession session, System.Action<T> messageConstructor) { }
+    }
+}
+namespace NServiceBus
+{
+    public class static UniformSessionExtensions
+    {
+        public static void EnableUniformSession(this NServiceBus.EndpointConfiguration endpointConfiguration) { }
     }
 }

@@ -37,9 +37,14 @@
         {
             public EndpointCachingSession()
             {
-                EndpointSetup<DefaultServer>(e => e.RegisterComponents(c => c
-                    // this will cause the resolved dependency to be cached across multiple pipeline invocations
-                    .ConfigureComponent<SingletonService>(DependencyLifecycle.SingleInstance)));
+                EndpointSetup<DefaultServer>(e =>
+                {
+                    e.EnableUniformSession();
+
+                    e.RegisterComponents(c => c
+                        // this will cause the resolved dependency to be cached across multiple pipeline invocations
+                        .ConfigureComponent<SingletonService>(DependencyLifecycle.SingleInstance));
+                });
             }
 
             public class Handler1 : IHandleMessages<Message1>

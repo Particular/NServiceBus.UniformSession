@@ -38,6 +38,8 @@
             {
                 EndpointSetup<DefaultServer>(e =>
                 {
+                    e.EnableUniformSession();
+
                     e.RegisterComponents(c => c
                         // this will cause the resolved dependency to be cached across multiple pipeline invocations
                         .ConfigureComponent<SingletonService>(DependencyLifecycle.SingleInstance));
