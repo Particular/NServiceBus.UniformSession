@@ -7,54 +7,54 @@ class PipelineContextSession : IUniformSession
 {
     public PipelineContextSession(IPipelineContext pipelineContext)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
 
         this.pipelineContext = pipelineContext;
     }
 
-    public void MarkAsUnusable()
-    {
-        unusable = true;
-    }
-
     public Task Send(object message, SendOptions options)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
 
         return pipelineContext.Send(message, options);
     }
 
     public Task Send<T>(Action<T> messageConstructor, SendOptions options)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
 
         return pipelineContext.Send(messageConstructor, options);
     }
 
     public Task Publish(object message, PublishOptions options)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
 
         return pipelineContext.Publish(message, options);
     }
 
     public Task Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
 
         return pipelineContext.Publish(messageConstructor, publishOptions);
     }
 
-    void ThrowIfUnusable()
+    public void Close()
     {
-        if (unusable)
+        closed = true;
+    }
+
+    void ThrowIfClosed()
+    {
+        if (closed)
         {
-            throw new InvalidOperationException(AccessUnusableSessionExceptionMessage);
+            throw new InvalidOperationException(AccessClosedSessionExceptionMessage);
         }
     }
 
     readonly IPipelineContext pipelineContext;
 
-    bool unusable;
-    static readonly string AccessUnusableSessionExceptionMessage = $"This session has been marked as no longer usable and can no longer send messages. Ensure to not cache instances {nameof(IUniformSession)}.";
+    bool closed;
+    static readonly string AccessClosedSessionExceptionMessage = $"This session instance belongs to a message handling pipeline that has already completed. It is no longer possible to execute message operations on this instance. Ensure to not cache instances of {nameof(IUniformSession)}.";
 }

@@ -13,7 +13,7 @@ class MessageSession : IUniformSession
 
     public Task Send(object message, SendOptions options)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
         ThrowIfAbusedInsidePipeline();
 
         return messageSession.Send(message, options);
@@ -21,7 +21,7 @@ class MessageSession : IUniformSession
 
     public Task Send<T>(Action<T> messageConstructor, SendOptions options)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
         ThrowIfAbusedInsidePipeline();
 
         return messageSession.Send(messageConstructor, options);
@@ -29,7 +29,7 @@ class MessageSession : IUniformSession
 
     public Task Publish(object message, PublishOptions options)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
         ThrowIfAbusedInsidePipeline();
 
         return messageSession.Publish(message, options);
@@ -37,22 +37,22 @@ class MessageSession : IUniformSession
 
     public Task Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions)
     {
-        ThrowIfUnusable();
+        ThrowIfClosed();
         ThrowIfAbusedInsidePipeline();
 
         return messageSession.Publish(messageConstructor, publishOptions);
     }
 
-    public void MarkAsUnusable()
+    public void Close()
     {
-        unusable = true;
+        closed = true;
     }
 
-    void ThrowIfUnusable()
+    void ThrowIfClosed()
     {
-        if (unusable)
+        if (closed)
         {
-            throw new InvalidOperationException(AccessUnusableSessionExceptionMessage);
+            throw new InvalidOperationException(AccessClosedSessionExceptionMessage);
         }
     }
 
@@ -66,8 +66,8 @@ class MessageSession : IUniformSession
 
     readonly IMessageSession messageSession;
 
-    bool unusable;
-    static readonly string AccessUnusableSessionExceptionMessage = $"This session has been marked as no longer usable and can no longer send messages. Ensure to not cache instances {nameof(IUniformSession)}.";
-    static readonly string SessionUsedInsidePipelineExceptionMessage = $"This session is being used inside the message handling pipeline which can lead to message loss. Ensure to not cache instances {nameof(IUniformSession)}.";
+    bool closed;
     CurrentSessionHolder sessionHolder;
+    static readonly string AccessClosedSessionExceptionMessage = $"The endpoint owning this session instance has been stopped. It is no longer possible to execute message operations on this instance. Ensure to not cache instances of {nameof(IUniformSession)}.";
+    static readonly string SessionUsedInsidePipelineExceptionMessage = $"This session is being used inside the message handling pipeline this can lead to message duplication. Ensure to not cache instances of {nameof(IUniformSession)}.";
 }

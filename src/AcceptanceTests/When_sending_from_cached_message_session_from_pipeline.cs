@@ -22,7 +22,7 @@
             Assert.IsTrue(ctx.Message1Received);
             Assert.IsFalse(ctx.Message2Received);
             Assert.IsNotNull(ctx.SendException);
-            StringAssert.Contains("This session is being used inside the message handling pipeline which can lead to message loss.", ctx.SendException.Message);
+            StringAssert.Contains("This session is being used inside the message handling pipeline this can lead to message duplication.", ctx.SendException.Message);
         }
 
         class Context : ScenarioContext
