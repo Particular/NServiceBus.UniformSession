@@ -5,11 +5,6 @@ using NServiceBus.Features;
 
 class UniformSessionFeature : Feature
 {
-    public UniformSessionFeature()
-    {
-        EnableByDefault();
-    }
-
     protected override void Setup(FeatureConfigurationContext context)
     {
         context.Pipeline.Register(new RegisterCurrentSessionBehavior(sessionHolder), "Enables floating of uniform session.");
