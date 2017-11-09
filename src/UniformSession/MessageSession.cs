@@ -68,6 +68,14 @@ class MessageSession : IUniformSession
 
     bool closed;
     CurrentSessionHolder sessionHolder;
-    static readonly string AccessClosedSessionExceptionMessage = $"The endpoint owning this session instance has been stopped. It is no longer possible to execute message operations on this instance. Ensure to not cache instances of {nameof(IUniformSession)}.";
-    static readonly string SessionUsedInsidePipelineExceptionMessage = $"This session is being used inside the message handling pipeline this can lead to message duplication. Ensure to not cache instances of {nameof(IUniformSession)}.";
+
+    static readonly string NotCached = $@"Instances of '{nameof(IUniformSession)}' should not be cached, in example by 
+ - Injecting into a singleton
+ - Injecting into an instance with a custom container scope that exceeds the lifetime of an endpoint
+ - Rebinding on another container that exceeds the lifetime of the endpoint
+ - Assigning to a static or thread static field or property
+";
+
+    static readonly string AccessClosedSessionExceptionMessage = $@"The endpoint owning this '{nameof(IUniformSession)}' instance has been stopped, so it is no longer possible to execute message operations. {NotCached}";
+    static readonly string SessionUsedInsidePipelineExceptionMessage = $"This '{nameof(IUniformSession)}' instance belongs to an endpoint and cannot be used in the message handling pipeline. Usage of this '{nameof(IUniformSession)}' instance within a pipeline can lead to message duplication. {NotCached}";
 }

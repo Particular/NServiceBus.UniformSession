@@ -56,5 +56,13 @@ class PipelineContextSession : IUniformSession
     readonly IPipelineContext pipelineContext;
 
     bool closed;
-    static readonly string AccessClosedSessionExceptionMessage = $"This session instance belongs to a message handling pipeline that has already completed. It is no longer possible to execute message operations on this instance. Ensure to not cache instances of {nameof(IUniformSession)}.";
+
+    static readonly string NotCached = $@"Instances of '{nameof(IUniformSession)}' should not be cached, in example by 
+ - Injecting into a singleton
+ - Injecting into an instance with a custom container scope that exceeds the lifetime of a message handling pipeline
+ - Rebinding on another container that exceeds the lifetime of a message handling pipeline
+ - Assigning to a static or thread static field or property
+";
+
+    static readonly string AccessClosedSessionExceptionMessage = $"The message handling pipeline owning this '{nameof(IUniformSession)}' instance has been completed, it is no longer possible to execute message operations. {NotCached}";
 }

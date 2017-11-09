@@ -22,7 +22,7 @@
             Assert.IsTrue(ctx.Message2Received);
             Assert.IsFalse(ctx.Message3Received);
             Assert.IsNotNull(ctx.SendException);
-            StringAssert.Contains("This session instance belongs to a message handling pipeline that has already completed. It is no longer possible to execute message operations on this instance.", ctx.SendException.Message);
+            StringAssert.Contains("The message handling pipeline owning this 'IUniformSession' instance has been completed, it is no longer possible to execute message operations.", ctx.SendException.Message);
         }
 
         class Context : ScenarioContext
