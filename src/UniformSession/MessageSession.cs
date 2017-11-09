@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBus.UniformSession;
 
-class MessageSession : IUniformSession, IDisposable
+class MessageSession : IUniformSession
 {
     public MessageSession(IMessageSession messageSession, CurrentSessionHolder sessionHolder)
     {
@@ -13,7 +13,7 @@ class MessageSession : IUniformSession, IDisposable
 
     public Task Send(object message, SendOptions options)
     {
-        ThrowIfDisposed();
+        ThrowIfClosed();
         ThrowIfAbusedInsidePipeline();
 
         return messageSession.Send(message, options);
@@ -21,7 +21,7 @@ class MessageSession : IUniformSession, IDisposable
 
     public Task Send<T>(Action<T> messageConstructor, SendOptions options)
     {
-        ThrowIfDisposed();
+        ThrowIfClosed();
         ThrowIfAbusedInsidePipeline();
 
         return messageSession.Send(messageConstructor, options);
@@ -29,7 +29,7 @@ class MessageSession : IUniformSession, IDisposable
 
     public Task Publish(object message, PublishOptions options)
     {
-        ThrowIfDisposed();
+        ThrowIfClosed();
         ThrowIfAbusedInsidePipeline();
 
         return messageSession.Publish(message, options);
@@ -37,22 +37,22 @@ class MessageSession : IUniformSession, IDisposable
 
     public Task Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions)
     {
-        ThrowIfDisposed();
+        ThrowIfClosed();
         ThrowIfAbusedInsidePipeline();
 
         return messageSession.Publish(messageConstructor, publishOptions);
     }
 
-    public void Dispose()
+    public void Close()
     {
-        isDisposed = true;
+        closed = true;
     }
 
-    void ThrowIfDisposed()
+    void ThrowIfClosed()
     {
-        if (isDisposed)
+        if (closed)
         {
-            throw new InvalidOperationException(AccessDisposedSessionExceptionMessage);
+            throw new InvalidOperationException(AccessClosedSessionExceptionMessage);
         }
     }
 
@@ -66,8 +66,16 @@ class MessageSession : IUniformSession, IDisposable
 
     readonly IMessageSession messageSession;
 
-    bool isDisposed;
-    static readonly string AccessDisposedSessionExceptionMessage = $"This session has been disposed and can no longer send messages. Ensure to not cache instances {nameof(IUniformSession)}.";
-    static readonly string SessionUsedInsidePipelineExceptionMessage = $"This session is being used inside the message handling pipeline which can lead to message loss. Ensure to not cache instances {nameof(IUniformSession)}.";
+    bool closed;
     CurrentSessionHolder sessionHolder;
+
+    static readonly string NotCached = $@"Instances of '{nameof(IUniformSession)}' should not be cached, in example by 
+ - Injecting into a singleton
+ - Injecting into an instance with a custom container scope that exceeds the lifetime of an endpoint
+ - Rebinding on another container that exceeds the lifetime of the endpoint
+ - Assigning to a static or thread static field or property
+";
+
+    static readonly string AccessClosedSessionExceptionMessage = $@"The endpoint owning this '{nameof(IUniformSession)}' instance has been stopped, so it is no longer possible to execute message operations. {NotCached}";
+    static readonly string SessionUsedInsidePipelineExceptionMessage = $"This '{nameof(IUniformSession)}' instance belongs to an endpoint and cannot be used in the message handling pipeline. Usage of this '{nameof(IUniformSession)}' instance within a pipeline can lead to message duplication. {NotCached}";
 }
