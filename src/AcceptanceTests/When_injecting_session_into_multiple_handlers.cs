@@ -30,7 +30,7 @@
         {
             public EndpointWithMultipleHandlers()
             {
-                EndpointSetup<DefaultServer>();
+                EndpointSetup<DefaultServer>(e => e.EnableUniformSession());
             }
 
             public class Handler1 : IHandleMessages<MessageHandledByMultipleHandlers>

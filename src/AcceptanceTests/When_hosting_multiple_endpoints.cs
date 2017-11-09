@@ -38,7 +38,11 @@ namespace NServiceBus.AcceptanceTests
         {
             public Endpoint1()
             {
-                EndpointSetup<DefaultServer>(e => e.EnableFeature<Endpoint1FeatureWithStartupTask>());
+                EndpointSetup<DefaultServer>(e =>
+                {
+                    e.EnableUniformSession();
+                    e.EnableFeature<Endpoint1FeatureWithStartupTask>();
+                });
             }
 
             class Endpoint1FeatureWithStartupTask : Feature
@@ -91,7 +95,11 @@ namespace NServiceBus.AcceptanceTests
         {
             public Endpoint2()
             {
-                EndpointSetup<DefaultServer>(e => e.EnableFeature<Endpoint2FeatureWithStartupTask>());
+                EndpointSetup<DefaultServer>(e =>
+                {
+                    e.EnableUniformSession();
+                    e.EnableFeature<Endpoint2FeatureWithStartupTask>();
+                });
             }
 
             class Endpoint2FeatureWithStartupTask : Feature
