@@ -1,5 +1,7 @@
 assembly-versioning-scheme: Major
-next-version: 1.0
+next-version: 2.0
 branches:
-  master:
+  develop:
     tag: alpha
+  release:
+    tag: rc

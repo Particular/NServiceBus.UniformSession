@@ -1,4 +1,5 @@
-﻿namespace NServiceBus.UniformSession.Tests
+﻿#if NET461
+namespace NServiceBus.UniformSession.Tests
 {
     using System;
     using System.Linq;
@@ -30,3 +31,4 @@
         }
     }
 }
+#endif
