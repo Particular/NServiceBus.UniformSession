@@ -9,7 +9,7 @@
     public class APIApprovals
     {
         [Test]
-        public void ApproveNServiceBus()
+        public void Approve()
         {
             var publicApi = ApiGenerator.GeneratePublicApi(typeof(IUniformSession).Assembly, excludeAttributes: new[] { "System.Runtime.Versioning.TargetFrameworkAttribute" });
             Approver.Verify(publicApi);
