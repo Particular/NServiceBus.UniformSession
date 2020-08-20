@@ -5,6 +5,7 @@
     using AcceptanceTesting;
     using EndpointTemplates;
     using Features;
+    using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using UniformSession;
 
@@ -53,7 +54,7 @@
                 protected override void Setup(FeatureConfigurationContext context)
                 {
                     context.Container.ConfigureComponent<SessionStartupTask>(DependencyLifecycle.InstancePerCall);
-                    context.RegisterStartupTask(b => b.Build<SessionStartupTask>());
+                    context.RegisterStartupTask(b => b.GetService<SessionStartupTask>());
                 }
 
                 class SessionStartupTask : FeatureStartupTask
