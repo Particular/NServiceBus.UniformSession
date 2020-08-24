@@ -51,7 +51,7 @@ namespace NServiceBus.AcceptanceTests
                 protected override void Setup(FeatureConfigurationContext context)
                 {
                     context.Container.ConfigureComponent<Endpoint1FeatureStartupTaskUsingDependencyInjection>(DependencyLifecycle.InstancePerCall);
-                    context.RegisterStartupTask(b => b.GetService<Endpoint1FeatureStartupTaskUsingDependencyInjection>());
+                    context.RegisterStartupTask(b => b.GetRequiredService<Endpoint1FeatureStartupTaskUsingDependencyInjection>());
                 }
 
                 class Endpoint1FeatureStartupTaskUsingDependencyInjection : FeatureStartupTask
@@ -108,7 +108,7 @@ namespace NServiceBus.AcceptanceTests
                 protected override void Setup(FeatureConfigurationContext context)
                 {
                     context.Container.ConfigureComponent<Endpoint2FeatureStartupTaskUsingDependencyInjection>(DependencyLifecycle.InstancePerCall);
-                    context.RegisterStartupTask(b => b.GetService<Endpoint2FeatureStartupTaskUsingDependencyInjection>());
+                    context.RegisterStartupTask(b => b.GetRequiredService<Endpoint2FeatureStartupTaskUsingDependencyInjection>());
                 }
 
                 class Endpoint2FeatureStartupTaskUsingDependencyInjection : FeatureStartupTask

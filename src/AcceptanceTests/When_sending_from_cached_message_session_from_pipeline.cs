@@ -54,7 +54,7 @@
                 protected override void Setup(FeatureConfigurationContext context)
                 {
                     context.Container.ConfigureComponent<SessionStartupTask>(DependencyLifecycle.InstancePerCall);
-                    context.RegisterStartupTask(b => b.GetService<SessionStartupTask>());
+                    context.RegisterStartupTask(b => b.GetRequiredService<SessionStartupTask>());
                 }
 
                 class SessionStartupTask : FeatureStartupTask
