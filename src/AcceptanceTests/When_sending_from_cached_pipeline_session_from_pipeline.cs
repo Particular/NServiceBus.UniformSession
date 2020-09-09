@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using AcceptanceTesting;
     using EndpointTemplates;
+    using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using UniformSession;
 
@@ -43,7 +44,7 @@
 
                     e.RegisterComponents(c => c
                         // this will cause the resolved dependency to be cached across multiple pipeline invocations
-                        .ConfigureComponent<SingletonService>(DependencyLifecycle.SingleInstance));
+                        .AddSingleton<SingletonService>());
                 });
             }
 

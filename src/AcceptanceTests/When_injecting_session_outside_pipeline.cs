@@ -46,7 +46,7 @@
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
-                    context.Container.ConfigureComponent<FeatureStartupTaskUsingDependencyInjection>(DependencyLifecycle.InstancePerCall);
+                    context.Services.AddTransient<FeatureStartupTaskUsingDependencyInjection>();
                     context.RegisterStartupTask(b => b.GetRequiredService<FeatureStartupTaskUsingDependencyInjection>());
                 }
 

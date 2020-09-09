@@ -50,7 +50,7 @@ namespace NServiceBus.AcceptanceTests
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
-                    context.Container.ConfigureComponent<Endpoint1FeatureStartupTaskUsingDependencyInjection>(DependencyLifecycle.InstancePerCall);
+                    context.Services.AddTransient<Endpoint1FeatureStartupTaskUsingDependencyInjection>();
                     context.RegisterStartupTask(b => b.GetRequiredService<Endpoint1FeatureStartupTaskUsingDependencyInjection>());
                 }
 
@@ -107,7 +107,7 @@ namespace NServiceBus.AcceptanceTests
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
-                    context.Container.ConfigureComponent<Endpoint2FeatureStartupTaskUsingDependencyInjection>(DependencyLifecycle.InstancePerCall);
+                    context.Services.AddTransient<Endpoint2FeatureStartupTaskUsingDependencyInjection>();
                     context.RegisterStartupTask(b => b.GetRequiredService<Endpoint2FeatureStartupTaskUsingDependencyInjection>());
                 }
 
