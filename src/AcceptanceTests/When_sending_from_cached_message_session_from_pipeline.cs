@@ -43,7 +43,7 @@
 
                     e.RegisterComponents(c => c
                         // this will cause the resolved dependency to be cached across multiple pipeline invocations
-                        .ConfigureComponent<SingletonService>(DependencyLifecycle.SingleInstance));
+                        .AddSingleton<SingletonService>());
 
                     e.EnableFeature<StartupTaskFeature>();
                 });
@@ -53,7 +53,7 @@
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
-                    context.Container.ConfigureComponent<SessionStartupTask>(DependencyLifecycle.InstancePerCall);
+                    context.Services.AddTransient<SessionStartupTask>();
                     context.RegisterStartupTask(b => b.GetRequiredService<SessionStartupTask>());
                 }
 

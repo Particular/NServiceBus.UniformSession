@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
     using AcceptanceTesting;
     using EndpointTemplates;
+    using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using UniformSession;
 
@@ -39,8 +40,8 @@
 
                     e.RegisterComponents(r =>
                     {
-                        r.ConfigureComponent<ServiceA>(DependencyLifecycle.InstancePerCall);
-                        r.ConfigureComponent<ServiceB>(DependencyLifecycle.InstancePerUnitOfWork);
+                        r.AddTransient<ServiceA>();
+                        r.AddScoped<ServiceB>();
                     });
                 });
             }

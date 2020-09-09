@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using NServiceBus;
 using NServiceBus.Features;
 
@@ -10,7 +11,7 @@ class UniformSessionFeature : Feature
         context.Pipeline.Register(new RegisterCurrentSessionBehavior(sessionHolder), "Enables floating of uniform session.");
         context.RegisterStartupTask(new RegisterSessionStartupTask(sessionHolder));
 
-        context.Container.ConfigureComponent(() => sessionHolder.Current, DependencyLifecycle.InstancePerCall);
+        context.Services.AddTransient(_ => sessionHolder.Current);
     }
 
     CurrentSessionHolder sessionHolder = new CurrentSessionHolder();
