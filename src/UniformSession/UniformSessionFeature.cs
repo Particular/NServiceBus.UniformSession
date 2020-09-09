@@ -11,7 +11,7 @@ class UniformSessionFeature : Feature
         context.Pipeline.Register(new RegisterCurrentSessionBehavior(sessionHolder), "Enables floating of uniform session.");
         context.RegisterStartupTask(new RegisterSessionStartupTask(sessionHolder));
 
-        context.Services.AddTransient((s) => sessionHolder.Current);
+        context.Services.AddTransient(_ => sessionHolder.Current);
     }
 
     CurrentSessionHolder sessionHolder = new CurrentSessionHolder();
