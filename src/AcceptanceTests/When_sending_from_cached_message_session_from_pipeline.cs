@@ -75,7 +75,6 @@
                         return Task.CompletedTask;
                     }
 
-                    // ReSharper disable once NotAccessedField.Local
                     SingletonService service;
                 }
             }
