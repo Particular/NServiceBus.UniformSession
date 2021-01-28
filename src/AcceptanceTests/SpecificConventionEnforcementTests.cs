@@ -14,10 +14,10 @@
             var testTypes = Assembly.GetExecutingAssembly().GetTypes();
 
             var contexts = (from context in testTypes
-                    where typeof(ScenarioContext).IsAssignableFrom(context)
-                    let properties = context.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                    where properties.Length > 0
-                    select context)
+                            where typeof(ScenarioContext).IsAssignableFrom(context)
+                            let properties = context.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                            where properties.Length > 0
+                            select context)
                 .ToList();
 
             CollectionAssert.IsEmpty(contexts, string.Join(",", contexts), "To avoid automatic property injection use public fields only.");
