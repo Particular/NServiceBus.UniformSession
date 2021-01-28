@@ -75,7 +75,9 @@
                         return Task.CompletedTask;
                     }
 
+#pragma warning disable IDE0052 // Remove unread private members
                     SingletonService service;
+#pragma warning restore IDE0052 // Remove unread private members
                 }
             }
 
