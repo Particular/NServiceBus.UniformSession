@@ -1,6 +1,7 @@
 ﻿namespace NServiceBus.AcceptanceTests
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using AcceptanceTesting;
     using EndpointTemplates;
@@ -41,7 +42,7 @@
                 });
             }
 
-            class FeatureWithStartupTask : Feature
+            class FeatureWithStartupTask : Features.Feature
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
@@ -57,13 +58,13 @@
                         this.testContext = testContext;
                     }
 
-                    protected override Task OnStart(IMessageSession session)
+                    protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken)
                     {
                         testContext.StartupUniformSession = uniformSession;
                         return Task.CompletedTask;
                     }
 
-                    protected override Task OnStop(IMessageSession session)
+                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken)
                     {
                         return Task.CompletedTask;
                     }

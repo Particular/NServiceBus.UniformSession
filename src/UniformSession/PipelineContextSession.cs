@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBus.UniformSession;
@@ -12,28 +13,28 @@ class PipelineContextSession : IUniformSession
         this.pipelineContext = pipelineContext;
     }
 
-    public Task Send(object message, SendOptions options)
+    public Task Send(object message, SendOptions options, CancellationToken cancellationToken = default)
     {
         ThrowIfClosed();
 
         return pipelineContext.Send(message, options);
     }
 
-    public Task Send<T>(Action<T> messageConstructor, SendOptions options)
+    public Task Send<T>(Action<T> messageConstructor, SendOptions options, CancellationToken cancellationToken = default)
     {
         ThrowIfClosed();
 
         return pipelineContext.Send(messageConstructor, options);
     }
 
-    public Task Publish(object message, PublishOptions options)
+    public Task Publish(object message, PublishOptions options, CancellationToken cancellationToken = default)
     {
         ThrowIfClosed();
 
         return pipelineContext.Publish(message, options);
     }
 
-    public Task Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions)
+    public Task Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions, CancellationToken cancellationToken = default)
     {
         ThrowIfClosed();
 

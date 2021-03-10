@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using NServiceBus;
@@ -23,13 +24,13 @@ class UniformSessionFeature : Feature
             this.sessionHolder = sessionHolder;
         }
 
-        protected override Task OnStart(IMessageSession session)
+        protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken)
         {
             scope = sessionHolder.SetMessageSession(session);
             return Task.CompletedTask;
         }
 
-        protected override Task OnStop(IMessageSession session)
+        protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken)
         {
             scope.Dispose();
             return Task.CompletedTask;

@@ -1,12 +1,14 @@
 namespace NServiceBus.AcceptanceTests
 {
+    using System.Threading;
     using System.Threading.Tasks;
     using AcceptanceTesting;
     using EndpointTemplates;
-    using Features;
     using Microsoft.Extensions.DependencyInjection;
+    using NServiceBus.Features;
     using NUnit.Framework;
     using UniformSession;
+    using Feature = Features.Feature;
 
     public class When_hosting_multiple_endpoints : NServiceBusAcceptanceTest
     {
@@ -46,7 +48,7 @@ namespace NServiceBus.AcceptanceTests
                 });
             }
 
-            class Endpoint1FeatureWithStartupTask : Feature
+            class Endpoint1FeatureWithStartupTask : Features.Feature
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
@@ -62,13 +64,13 @@ namespace NServiceBus.AcceptanceTests
                         this.testContext = testContext;
                     }
 
-                    protected override Task OnStart(IMessageSession session)
+                    protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken)
                     {
                         testContext.Endpoint1StartupSession = uniformSession;
                         return Task.CompletedTask;
                     }
 
-                    protected override Task OnStop(IMessageSession session)
+                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken)
                     {
                         return Task.CompletedTask;
                     }
@@ -103,7 +105,7 @@ namespace NServiceBus.AcceptanceTests
                 });
             }
 
-            class Endpoint2FeatureWithStartupTask : Feature
+            class Endpoint2FeatureWithStartupTask : Features.Feature
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
@@ -119,13 +121,13 @@ namespace NServiceBus.AcceptanceTests
                         this.testContext = testContext;
                     }
 
-                    protected override Task OnStart(IMessageSession session)
+                    protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken)
                     {
                         testContext.Endpoint2StartupSession = uniformSession;
                         return Task.CompletedTask;
                     }
 
-                    protected override Task OnStop(IMessageSession session)
+                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken)
                     {
                         return Task.CompletedTask;
                     }
