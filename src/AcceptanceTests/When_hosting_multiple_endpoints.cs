@@ -8,7 +8,6 @@ namespace NServiceBus.AcceptanceTests
     using NServiceBus.Features;
     using NUnit.Framework;
     using UniformSession;
-    using Feature = Features.Feature;
 
     public class When_hosting_multiple_endpoints : NServiceBusAcceptanceTest
     {
