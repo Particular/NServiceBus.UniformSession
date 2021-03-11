@@ -55,7 +55,11 @@
         {
             public EndpointWithMultipleMessages()
             {
-                EndpointSetup<DefaultServer>(e => e.EnableUniformSession());
+                EndpointSetup<DefaultServer>(e =>
+                {
+                    e.EnableUniformSession();
+                    e.ConfigureTransport().TransportTransactionMode = TransportTransactionMode.SendsAtomicWithReceive;
+                });
             }
 
             public class StartCommandHandler : IHandleMessages<StartCommand>
