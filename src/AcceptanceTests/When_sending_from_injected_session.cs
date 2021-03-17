@@ -58,7 +58,6 @@
                 EndpointSetup<DefaultServer>(e =>
                 {
                     e.EnableUniformSession();
-                    e.ConfigureTransport().TransportTransactionMode = TransportTransactionMode.SendsAtomicWithReceive;
                 });
             }
 
