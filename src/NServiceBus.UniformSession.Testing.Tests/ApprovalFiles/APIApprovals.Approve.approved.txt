@@ -1,0 +1,13 @@
+namespace NServiceBus.UniformSession.Testing
+{
+    public class TestableUniformSession : NServiceBus.UniformSession.IUniformSession
+    {
+        public TestableUniformSession() { }
+    }
+    public static class TestableUniformSessionExtensions
+    {
+        public static NServiceBus.Testing.Handler<T> WithUniformSession<T>(this NServiceBus.Testing.Handler<T> handler, NServiceBus.UniformSession.Testing.TestableUniformSession uniformSession) { }
+        public static NServiceBus.Testing.Saga<T> WithUniformSession<T>(this NServiceBus.Testing.Saga<T> saga, NServiceBus.UniformSession.Testing.TestableUniformSession uniformSession)
+            where T : NServiceBus.Saga { }
+    }
+}
