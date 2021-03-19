@@ -1,6 +1,7 @@
 ﻿namespace NServiceBus.UniformSession.Testing.Tests
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using NServiceBus.Testing;
     using NUnit.Framework;
@@ -20,16 +21,14 @@
         }
 
         [Test]
-        public void When_not_initialized_in_handler_test_should_throw()
+        public void When_not_initialized_in_handler_test_should_fail_expectations()
         {
             var uniformSession = new TestableUniformSession();
             var handler = new SomeHandler(uniformSession);
-            var exception = Assert.Throws<Exception>(
+            Assert.Throws<ExpectationException>(
                 () => Test.Handler(handler)
                             .ExpectPublish<SomeEvent>()
                             .OnMessage<SomeCommand>());
-            Assert.IsNotNull(exception);
-            Assert.IsTrue(exception.Message.Contains("WithUniformSession"));
         }
 
         [Test]
@@ -45,16 +44,50 @@
         }
 
         [Test]
-        public void When_not_initialized_should_throw()
+        public void When_not_initialized_should_fail_expectations()
         {
             var uniformSession = new TestableUniformSession();
             var saga = new SomeSaga(uniformSession);
-            var exception = Assert.Throws<Exception>(
+            Assert.Throws<ExpectationException>(
                 () => Test.Saga(saga)
                     .ExpectPublish<SomeEvent>()
                     .WhenHandling<SomeCommand>());
-            Assert.IsNotNull(exception);
-            Assert.IsTrue(exception.Message.Contains("WithUniformSession"));
+        }
+
+        [Test]
+        public async Task When_used_to_test_another_component_collects_outgoing_messages()
+        {
+            var uniformSession = new TestableUniformSession();
+            var reusableComponent = new ReusableComponent(uniformSession);
+
+            await reusableComponent.FireCommand().ConfigureAwait(false);
+
+            Assert.AreEqual(1, uniformSession.SentMessages.Length);
+        }
+
+        [Test]
+        public async Task When_used_to_test_another_component_collects_outgoing_events()
+        {
+            var uniformSession = new TestableUniformSession();
+            var reusableComponent = new ReusableComponent(uniformSession);
+
+            await reusableComponent.PublishEvent().ConfigureAwait(false);
+
+            Assert.AreEqual(1, uniformSession.PublishedMessages.Length);
+        }
+
+        class ReusableComponent
+        {
+            readonly IUniformSession session;
+
+            public ReusableComponent(IUniformSession session)
+            {
+                this.session = session;
+            }
+
+            public Task FireCommand() => session.Send(new SomeCommand());
+
+            public Task PublishEvent() => session.Publish(new SomeEvent());
         }
 
         class SomeCommand : ICommand

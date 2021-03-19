@@ -1,6 +1,6 @@
 namespace NServiceBus.UniformSession.Testing
 {
-    public class TestableUniformSession : NServiceBus.UniformSession.IUniformSession
+    public class TestableUniformSession : NServiceBus.Testing.TestablePipelineContext, NServiceBus.UniformSession.IUniformSession
     {
         public TestableUniformSession() { }
     }

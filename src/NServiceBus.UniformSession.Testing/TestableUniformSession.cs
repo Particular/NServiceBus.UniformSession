@@ -4,28 +4,47 @@
     using System.Threading.Tasks;
     using NServiceBus.Testing;
 
-    public class TestableUniformSession : IUniformSession
+    public class TestableUniformSession : TestablePipelineContext, IUniformSession
     {
         TestableMessageHandlerContext inner;
-
-        TestableMessageHandlerContext GetInnerContext() =>
-            inner ??
-            throw new Exception(
-                "TestableUniformSession not initialized. Add a call to `Handle<T>.WithUniformSession()` or `Saga<T>.WithUniformSession()`.");
 
         internal void SetInner(TestableMessageHandlerContext context)
             => inner = context;
 
-        Task IUniformSession.Send(object message, SendOptions options)
-            => GetInnerContext().Send(message, options);
+        async Task IUniformSession.Send(object message, SendOptions options)
+        {
+            if (inner != null)
+            {
+                await inner.Send(message, options).ConfigureAwait(false);
+            }
+            await base.Send(message, options).ConfigureAwait(false);
+        }
 
-        Task IUniformSession.Send<T>(Action<T> messageConstructor, SendOptions options)
-            => GetInnerContext().Send(messageConstructor, options);
+        async Task IUniformSession.Send<T>(Action<T> messageConstructor, SendOptions options)
+        {
+            if (inner != null)
+            {
+                await inner.Send(messageConstructor, options).ConfigureAwait(false);
+            }
+            await base.Send(messageConstructor, options).ConfigureAwait(false);
+        }
 
-        Task IUniformSession.Publish(object message, PublishOptions options)
-            => GetInnerContext().Publish(message, options);
+        async Task IUniformSession.Publish(object message, PublishOptions options)
+        {
+            if (inner != null)
+            {
+                await inner.Publish(message, options).ConfigureAwait(false);
+            }
+            await base.Publish(message, options).ConfigureAwait(false);
+        }
 
-        Task IUniformSession.Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions)
-            => GetInnerContext().Publish(messageConstructor, publishOptions);
+        async Task IUniformSession.Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions)
+        {
+            if (inner != null)
+            {
+                await inner.Publish(messageConstructor, publishOptions).ConfigureAwait(false);
+            }
+            await base.Publish(messageConstructor, publishOptions).ConfigureAwait(false);
+        }
     }
 }
