@@ -1,12 +1,13 @@
-﻿namespace NServiceBus.AcceptanceTests
+﻿namespace NServiceBus.UniformSession.AcceptanceTests
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
     using AcceptanceTesting;
-    using EndpointTemplates;
     using Features;
     using Microsoft.Extensions.DependencyInjection;
+    using NServiceBus.AcceptanceTests;
+    using NServiceBus.AcceptanceTests.EndpointTemplates;
     using NUnit.Framework;
     using UniformSession;
 

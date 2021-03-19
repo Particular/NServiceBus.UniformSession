@@ -1,9 +1,10 @@
-﻿namespace NServiceBus.AcceptanceTests
+﻿namespace NServiceBus.UniformSession.AcceptanceTests
 {
     using System;
     using System.Threading.Tasks;
     using AcceptanceTesting;
-    using EndpointTemplates;
+    using NServiceBus.AcceptanceTests;
+    using NServiceBus.AcceptanceTests.EndpointTemplates;
     using NUnit.Framework;
     using Pipeline;
     using UniformSession;
