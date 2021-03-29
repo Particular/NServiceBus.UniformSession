@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SolutionDir)NServiceBus.snk</AssemblyOriginatorKeyFile>
     <OutputPath>..\..\binaries</OutputPath>
@@ -14,8 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NServiceBus.Testing" Version="[8.0.0-alpha.155,9.0.0)" />
-    <PackageReference Include="Particular.Packaging" Version="1.1.0" PrivateAssets="All" /> 
+    <PackageReference Include="NServiceBus.Testing" Version="[7.0.0, 8.0.0)" />
+    <PackageReference Include="Particular.CodeRules" Version="0.3.0" PrivateAssets="All" />
+    <PackageReference Include="Particular.Packaging" Version="0.9.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
