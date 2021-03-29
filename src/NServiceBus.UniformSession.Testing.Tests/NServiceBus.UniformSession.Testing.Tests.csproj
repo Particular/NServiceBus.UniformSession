@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netcoreapp3.1</TargetFrameworks>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NServiceBus.UniformSession.Testing\NServiceBus.UniformSession.Testing.csproj" />
+    <ProjectReference Include="..\UniformSession\NServiceBus.UniformSession.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+    <PackageReference Include="NServiceBus" Version="7.4.4" />
+    <PackageReference Include="NServiceBus.Testing" Version="7.2.0" />
+    <PackageReference Include="NUnit" Version="3.13.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="Particular.Approvals" Version="0.2.0" />
+    <PackageReference Include="PublicApiGenerator" Version="10.2.0" />
+  </ItemGroup>
+
+</Project>
