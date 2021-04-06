@@ -1,6 +1,7 @@
 ﻿namespace NServiceBus.UniformSession.Testing
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using NServiceBus.Testing;
 
@@ -11,7 +12,7 @@
         internal void SetInner(TestableMessageHandlerContext context)
             => inner = context;
 
-        async Task IUniformSession.Send(object message, SendOptions options)
+        async Task IUniformSession.Send(object message, SendOptions options, CancellationToken cancellationToken)
         {
             if (inner != null)
             {
@@ -20,7 +21,7 @@
             await base.Send(message, options).ConfigureAwait(false);
         }
 
-        async Task IUniformSession.Send<T>(Action<T> messageConstructor, SendOptions options)
+        async Task IUniformSession.Send<T>(Action<T> messageConstructor, SendOptions options, CancellationToken cancellationToken)
         {
             if (inner != null)
             {
@@ -29,7 +30,7 @@
             await base.Send(messageConstructor, options).ConfigureAwait(false);
         }
 
-        async Task IUniformSession.Publish(object message, PublishOptions options)
+        async Task IUniformSession.Publish(object message, PublishOptions options, CancellationToken cancellationToken)
         {
             if (inner != null)
             {
@@ -38,7 +39,7 @@
             await base.Publish(message, options).ConfigureAwait(false);
         }
 
-        async Task IUniformSession.Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions)
+        async Task IUniformSession.Publish<T>(Action<T> messageConstructor, PublishOptions publishOptions, CancellationToken cancellationToken)
         {
             if (inner != null)
             {
