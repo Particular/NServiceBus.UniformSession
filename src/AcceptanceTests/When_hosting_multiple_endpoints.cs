@@ -48,7 +48,7 @@ namespace NServiceBus.UniformSession.AcceptanceTests
                 });
             }
 
-            class Endpoint1FeatureWithStartupTask : Features.Feature
+            class Endpoint1FeatureWithStartupTask : Feature
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
@@ -64,13 +64,13 @@ namespace NServiceBus.UniformSession.AcceptanceTests
                         this.testContext = testContext;
                     }
 
-                    protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken)
+                    protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken = default)
                     {
                         testContext.Endpoint1StartupSession = uniformSession;
                         return Task.CompletedTask;
                     }
 
-                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken)
+                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken = default)
                     {
                         return Task.CompletedTask;
                     }
@@ -105,7 +105,7 @@ namespace NServiceBus.UniformSession.AcceptanceTests
                 });
             }
 
-            class Endpoint2FeatureWithStartupTask : Features.Feature
+            class Endpoint2FeatureWithStartupTask : Feature
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
@@ -121,13 +121,13 @@ namespace NServiceBus.UniformSession.AcceptanceTests
                         this.testContext = testContext;
                     }
 
-                    protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken)
+                    protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken = default)
                     {
                         testContext.Endpoint2StartupSession = uniformSession;
                         return Task.CompletedTask;
                     }
 
-                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken)
+                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken = default)
                     {
                         return Task.CompletedTask;
                     }

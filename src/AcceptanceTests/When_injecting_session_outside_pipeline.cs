@@ -43,7 +43,7 @@
                 });
             }
 
-            class FeatureWithStartupTask : Features.Feature
+            class FeatureWithStartupTask : Feature
             {
                 protected override void Setup(FeatureConfigurationContext context)
                 {
@@ -59,14 +59,14 @@
                         this.testContext = testContext;
                     }
 
-                    protected override async Task OnStart(IMessageSession session, CancellationToken cancellationToken)
+                    protected override async Task OnStart(IMessageSession session, CancellationToken cancellationToken = default)
                     {
                         testContext.StartupUniformSession = uniformSession;
                         await session.SendLocal(new DemoMessage(), cancellationToken: cancellationToken);
                         await uniformSession.SendLocal(new DemoMessage(), cancellationToken: cancellationToken);
                     }
 
-                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken)
+                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken = default)
                     {
                         testContext.ShutdownUniformSession = uniformSession;
                         return Task.CompletedTask;
