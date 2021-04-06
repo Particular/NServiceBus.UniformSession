@@ -1,11 +1,12 @@
-﻿namespace NServiceBus.AcceptanceTests
+﻿namespace NServiceBus.UniformSession.AcceptanceTests
 {
     using System.Threading;
     using System.Threading.Tasks;
     using AcceptanceTesting;
-    using EndpointTemplates;
     using Features;
     using Microsoft.Extensions.DependencyInjection;
+    using NServiceBus.AcceptanceTests;
+    using NServiceBus.AcceptanceTests.EndpointTemplates;
     using NUnit.Framework;
     using UniformSession;
 
@@ -58,14 +59,14 @@
                         this.testContext = testContext;
                     }
 
-                    protected override async Task OnStart(IMessageSession session)
+                    protected override async Task OnStart(IMessageSession session, CancellationToken cancellationToken = default)
                     {
                         testContext.StartupUniformSession = uniformSession;
-                        await session.SendLocal(new DemoMessage());
-                        await uniformSession.SendLocal(new DemoMessage());
+                        await session.SendLocal(new DemoMessage(), cancellationToken: cancellationToken);
+                        await uniformSession.SendLocal(new DemoMessage(), cancellationToken: cancellationToken);
                     }
 
-                    protected override Task OnStop(IMessageSession session)
+                    protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken = default)
                     {
                         testContext.ShutdownUniformSession = uniformSession;
                         return Task.CompletedTask;
