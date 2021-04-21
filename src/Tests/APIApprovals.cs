@@ -11,7 +11,7 @@
         [Test]
         public void ApproveNServiceBus()
         {
-            var publicApi = ApiGenerator.GeneratePublicApi(typeof(IUniformSession).Assembly);
+            var publicApi = ApiGenerator.GeneratePublicApi(typeof(IUniformSession).Assembly, excludeAttributes: new[] { "System.Runtime.Versioning.TargetFrameworkAttribute", "System.Reflection.AssemblyMetadataAttribute" });
             Approver.Verify(publicApi);
         }
     }
