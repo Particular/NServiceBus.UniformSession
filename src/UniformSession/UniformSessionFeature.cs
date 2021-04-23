@@ -24,13 +24,13 @@ class UniformSessionFeature : Feature
             this.sessionHolder = sessionHolder;
         }
 
-        protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken)
+        protected override Task OnStart(IMessageSession session, CancellationToken cancellationToken = default)
         {
             scope = sessionHolder.SetMessageSession(session);
             return Task.CompletedTask;
         }
 
-        protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken)
+        protected override Task OnStop(IMessageSession session, CancellationToken cancellationToken = default)
         {
             scope.Dispose();
             return Task.CompletedTask;

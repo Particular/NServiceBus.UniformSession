@@ -1,7 +1,7 @@
 ﻿namespace NServiceBus.UniformSession.Testing.Tests
 {
     using System;
-    using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using NServiceBus.Testing;
     using NUnit.Framework;
@@ -85,9 +85,9 @@
                 this.session = session;
             }
 
-            public Task FireCommand() => session.Send(new SomeCommand());
+            public Task FireCommand(CancellationToken cancellationToken = default) => session.Send(new SomeCommand(), cancellationToken: cancellationToken);
 
-            public Task PublishEvent() => session.Publish(new SomeEvent());
+            public Task PublishEvent(CancellationToken cancellationToken = default) => session.Publish(new SomeEvent(), cancellationToken: cancellationToken);
         }
 
         class SomeCommand : ICommand

@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using NServiceBus.Testing;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Code", "PS0002:Instance methods on types implementing ICancellableContext should not have a CancellationToken parameter", Justification = "Testable object implementing interface explicitly")]
     public class TestableUniformSession : TestablePipelineContext, IUniformSession
     {
         TestableMessageHandlerContext inner;
