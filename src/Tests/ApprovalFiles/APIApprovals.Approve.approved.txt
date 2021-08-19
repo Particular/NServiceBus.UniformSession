@@ -8,7 +8,7 @@ namespace NServiceBus.UniformSession
         System.Threading.Tasks.Task Send(object message, NServiceBus.SendOptions options, System.Threading.CancellationToken cancellationToken = default);
         System.Threading.Tasks.Task Send<T>(System.Action<T> messageConstructor, NServiceBus.SendOptions options, System.Threading.CancellationToken cancellationToken = default);
     }
-    public static class IUniformSessionExtensions
+    public static class UniformSessionExtensions
     {
         public static System.Threading.Tasks.Task Publish(this NServiceBus.UniformSession.IUniformSession session, object message, System.Threading.CancellationToken cancellationToken = default) { }
         public static System.Threading.Tasks.Task Publish<T>(this NServiceBus.UniformSession.IUniformSession session, System.Threading.CancellationToken cancellationToken = default) { }
