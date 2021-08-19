@@ -7,7 +7,7 @@
     /// <summary>
     /// Extension methods for <see cref="IUniformSession" />.
     /// </summary>
-    public static class IUniformSessionExtensions
+    public static class UniformSessionExtensions
     {
         /// <summary>
         /// Sends the provided message.
