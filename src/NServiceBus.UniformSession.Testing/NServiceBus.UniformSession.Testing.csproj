@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SolutionDir)NServiceBus.snk</AssemblyOriginatorKeyFile>
-    <OutputPath>..\..\binaries</OutputPath>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <Description>NServiceBus Uniform Session Testing</Description>
   </PropertyGroup>
