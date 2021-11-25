@@ -10,51 +10,6 @@
     public class TestableUniformSessionTests
     {
         [Test]
-        public void Can_be_used_in_handler_test()
-        {
-            var uniformSession = new TestableUniformSession();
-            var handler = new SomeHandler(uniformSession);
-            Test.Handler(handler)
-                .WithUniformSession(uniformSession)
-                .ExpectPublish<SomeEvent>()
-                .OnMessage<SomeCommand>();
-        }
-
-        [Test]
-        public void When_not_initialized_in_handler_test_should_fail_expectations()
-        {
-            var uniformSession = new TestableUniformSession();
-            var handler = new SomeHandler(uniformSession);
-            Assert.Throws<ExpectationException>(
-                () => Test.Handler(handler)
-                            .ExpectPublish<SomeEvent>()
-                            .OnMessage<SomeCommand>());
-        }
-
-        [Test]
-        public void Can_be_used_in_saga_test()
-        {
-            var uniformSession = new TestableUniformSession();
-            var saga = new SomeSaga(uniformSession);
-            Test.Saga(saga)
-                .WithUniformSession(uniformSession)
-                .ExpectPublish<SomeEvent>()
-                .WhenHandling<SomeCommand>()
-                ;
-        }
-
-        [Test]
-        public void When_not_initialized_should_fail_expectations()
-        {
-            var uniformSession = new TestableUniformSession();
-            var saga = new SomeSaga(uniformSession);
-            Assert.Throws<ExpectationException>(
-                () => Test.Saga(saga)
-                    .ExpectPublish<SomeEvent>()
-                    .WhenHandling<SomeCommand>());
-        }
-
-        [Test]
         public async Task When_used_to_test_another_component_collects_outgoing_messages()
         {
             var uniformSession = new TestableUniformSession();
