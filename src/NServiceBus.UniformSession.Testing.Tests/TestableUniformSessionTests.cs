@@ -154,14 +154,10 @@
             }
         }
 
-        // Disable warning because public type is necessary for interface messages
-        // ReSharper disable once MemberCanBePrivate.Global
         public interface ISomeOtherCommand : ICommand
         {
         }
 
-        // Disable warning because public type is necessary for interface messages
-        // ReSharper disable once MemberCanBePrivate.Global
         public interface ISomeOtherEvent : IEvent
         {
         }
