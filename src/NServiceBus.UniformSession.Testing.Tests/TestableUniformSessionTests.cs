@@ -145,9 +145,7 @@
                 this.uniformSession = uniformSession;
             }
 
-#pragma warning disable PS0018 // A task-returning method should have a CancellationToken parameter unless it has a parameter implementing ICancellableContext
             public async Task DoSomething(IMessageSession messageSession)
-#pragma warning restore PS0018 // A task-returning method should have a CancellationToken parameter unless it has a parameter implementing ICancellableContext
             {
                 await messageSession.Send<ISomeOtherCommand>(_ => { });
                 await messageSession.Publish<ISomeOtherEvent>(_ => { });
