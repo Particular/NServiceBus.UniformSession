@@ -10,8 +10,12 @@ namespace NServiceBus.UniformSession.Testing
         public static NServiceBus.Testing.Saga<T> WithUniformSession<T>(this NServiceBus.Testing.Saga<T> saga, NServiceBus.UniformSession.Testing.TestableUniformSession uniformSession)
             where T : NServiceBus.Saga { }
     }
-    public class TestableUniformSession : NServiceBus.Testing.TestablePipelineContext, NServiceBus.UniformSession.IUniformSession
+    public class TestableUniformSession : NServiceBus.UniformSession.IUniformSession
     {
         public TestableUniformSession() { }
+        public TestableUniformSession(NServiceBus.Testing.TestableMessageSession innerSession) { }
+        public TestableUniformSession(NServiceBus.Testing.TestablePipelineContext innerContext) { }
+        public NServiceBus.Testing.PublishedMessage<>[] PublishedMessages { get; }
+        public NServiceBus.Testing.SentMessage<>[] SentMessages { get; }
     }
 }
