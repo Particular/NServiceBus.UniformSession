@@ -15,7 +15,7 @@ namespace NServiceBus.UniformSession.Testing
         public TestableUniformSession() { }
         public TestableUniformSession(NServiceBus.Testing.TestableMessageSession innerSession) { }
         public TestableUniformSession(NServiceBus.Testing.TestablePipelineContext innerContext) { }
-        public NServiceBus.Testing.PublishedMessage<>[] PublishedMessages { get; }
-        public NServiceBus.Testing.SentMessage<>[] SentMessages { get; }
+        public NServiceBus.Testing.PublishedMessage<object>[] PublishedMessages { get; }
+        public NServiceBus.Testing.SentMessage<object>[] SentMessages { get; }
     }
 }
