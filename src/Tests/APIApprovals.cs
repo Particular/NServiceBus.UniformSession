@@ -11,10 +11,11 @@
         [Test]
         public void Approve()
         {
-            var publicApi = ApiGenerator.GeneratePublicApi(typeof(IUniformSession).Assembly, excludeAttributes: new[]
+            var publicApi = typeof(IUniformSession).Assembly.GeneratePublicApi(new ApiGeneratorOptions
             {
-                "System.Runtime.Versioning.TargetFrameworkAttribute", "System.Reflection.AssemblyMetadataAttribute"
+                ExcludeAttributes = new[] { "System.Runtime.Versioning.TargetFrameworkAttribute", "System.Reflection.AssemblyMetadataAttribute" }
             });
+
             Approver.Verify(publicApi);
         }
     }
