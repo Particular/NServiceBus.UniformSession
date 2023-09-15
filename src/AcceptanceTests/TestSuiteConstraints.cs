@@ -1,8 +1,10 @@
 ﻿namespace NServiceBus.AcceptanceTests
 {
+    using System.Runtime.CompilerServices;
+    using AcceptanceTesting;
     using AcceptanceTesting.Support;
 
-    public partial class TestSuiteConstraints
+    public class TestSuiteConstraints : ITestSuiteConstraints
     {
         public bool SupportsDtc => false;
         public bool SupportsCrossQueueTransactions => true;
@@ -12,5 +14,7 @@
         public bool SupportsPurgeOnStartup => true;
         public IConfigureEndpointTestExecution CreateTransportConfiguration() => new ConfigureEndpointAcceptanceTestingTransport(SupportsNativePubSub, SupportsDelayedDelivery);
         public IConfigureEndpointTestExecution CreatePersistenceConfiguration() => new ConfigureEndpointAcceptanceTestingPersistence();
+        [ModuleInitializer]
+        public static void Initialize() => ITestSuiteConstraints.Current = new TestSuiteConstraints();
     }
 }
