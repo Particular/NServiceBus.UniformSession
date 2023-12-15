@@ -4,6 +4,4 @@ NServiceBus.UniformSession provides a uniform API for accessing messaging operat
 
 It is part of the [Particular Service Platform](https://particular.net/service-platform), which includes [NServiceBus](https://particular.net/nservicebus) and tools to build, monitor, and debug distributed systems.
 
-## Documentation
-
 See the [Uniform Session documentation](https://docs.particular.net/nservicebus/messaging/uniformsession) for more details on how to use it.
