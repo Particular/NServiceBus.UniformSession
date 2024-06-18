@@ -1,0 +1,4 @@
+ComponentType: Other
+ComponentPackages:
+  - Name: NServiceBus.UniformSession
+  - Name: NServiceBus.UniformSession.Testing
