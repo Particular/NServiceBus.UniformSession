@@ -22,7 +22,7 @@
 
             Assert.IsTrue(ctx.Message1Received);
             Assert.IsTrue(ctx.Message2Received);
-            Assert.IsFalse(ctx.Message3Received);
+            Assert.That(ctx.Message3Received, Is.False);
             Assert.IsNotNull(ctx.SendException);
             StringAssert.Contains("The message handling pipeline owning this 'IUniformSession' instance has been completed, it is no longer possible to execute message operations.", ctx.SendException.Message);
         }

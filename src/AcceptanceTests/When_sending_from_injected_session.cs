@@ -42,7 +42,7 @@
                 .Run();
 
             Assert.IsTrue(ctx.StartCommandReceived);
-            Assert.IsFalse(ctx.FollowupCommandReceived);
+            Assert.That(ctx.FollowupCommandReceived, Is.False);
         }
 
         class Context : ScenarioContext
