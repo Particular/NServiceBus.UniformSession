@@ -28,7 +28,7 @@
                 Assert.That(ctx.Message2Received, Is.False);
                 Assert.That(ctx.SendException, Is.Not.Null);
             });
-            StringAssert.Contains("This 'IUniformSession' instance belongs to an endpoint and cannot be used in the message handling pipeline. Usage of this 'IUniformSession' instance within a pipeline can lead to message duplication.", ctx.SendException.Message);
+            Assert.That(ctx.SendException.Message, Does.Contain("This 'IUniformSession' instance belongs to an endpoint and cannot be used in the message handling pipeline. Usage of this 'IUniformSession' instance within a pipeline can lead to message duplication."));
         }
 
         class Context : ScenarioContext

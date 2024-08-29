@@ -23,7 +23,7 @@
 
             Assert.That(ctx.StartupUniformSession, Is.Not.Null);
             var exception = Assert.ThrowsAsync<InvalidOperationException>(() => ctx.StartupUniformSession.SendLocal(new MyMessage()));
-            StringAssert.Contains("The endpoint owning this 'IUniformSession' instance has been stopped, so it is no longer possible to execute message operations.", exception.Message);
+            Assert.That(exception.Message, Does.Contain("The endpoint owning this 'IUniformSession' instance has been stopped, so it is no longer possible to execute message operations."));
         }
 
         class Context : ScenarioContext

@@ -27,7 +27,7 @@
                 Assert.That(ctx.Message3Received, Is.False);
                 Assert.That(ctx.SendException, Is.Not.Null);
             });
-            StringAssert.Contains("The message handling pipeline owning this 'IUniformSession' instance has been completed, it is no longer possible to execute message operations.", ctx.SendException.Message);
+            Assert.That(ctx.SendException.Message, Does.Contain("The message handling pipeline owning this 'IUniformSession' instance has been completed, it is no longer possible to execute message operations."));
         }
 
         class Context : ScenarioContext
