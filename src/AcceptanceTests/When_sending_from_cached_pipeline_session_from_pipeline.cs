@@ -20,8 +20,8 @@
                 .Done(c => c.SendException != null || c.Message3Received)
                 .Run();
 
-            Assert.IsTrue(ctx.Message1Received);
-            Assert.IsTrue(ctx.Message2Received);
+            Assert.That(ctx.Message1Received, Is.True);
+            Assert.That(ctx.Message2Received, Is.True);
             Assert.That(ctx.Message3Received, Is.False);
             Assert.IsNotNull(ctx.SendException);
             StringAssert.Contains("The message handling pipeline owning this 'IUniformSession' instance has been completed, it is no longer possible to execute message operations.", ctx.SendException.Message);

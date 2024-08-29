@@ -20,8 +20,8 @@
                 .Done(c => c.FollowupCommandReceived)
                 .Run();
 
-            Assert.IsTrue(ctx.StartCommandReceived);
-            Assert.IsTrue(ctx.FollowupCommandReceived);
+            Assert.That(ctx.StartCommandReceived, Is.True);
+            Assert.That(ctx.FollowupCommandReceived, Is.True);
         }
 
         [Test]
@@ -41,7 +41,7 @@
                 .Done(c => c.ExceptionThrown)
                 .Run();
 
-            Assert.IsTrue(ctx.StartCommandReceived);
+            Assert.That(ctx.StartCommandReceived, Is.True);
             Assert.That(ctx.FollowupCommandReceived, Is.False);
         }
 

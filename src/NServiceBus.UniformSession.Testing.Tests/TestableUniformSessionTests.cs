@@ -24,7 +24,7 @@
             Assert.AreEqual(2, handlerContext.PublishedMessages.Length);
             Assert.AreEqual(2, handlerContext.SentMessages.Length);
 
-            Assert.IsTrue(handlerContext.DoNotContinueDispatchingCurrentMessageToHandlersWasCalled);
+            Assert.That(handlerContext.DoNotContinueDispatchingCurrentMessageToHandlersWasCalled, Is.True);
         }
 
         [Test]
