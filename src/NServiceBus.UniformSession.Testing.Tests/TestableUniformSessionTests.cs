@@ -21,10 +21,10 @@
 
             Assert.Multiple(() =>
             {
-                Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
-                Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
-                Assert.That(handlerContext.PublishedMessages.Length, Is.EqualTo(2));
-                Assert.That(handlerContext.SentMessages.Length, Is.EqualTo(2));
+                Assert.That(uniformSession.PublishedMessages, Has.Length.EqualTo(2));
+                Assert.That(uniformSession.SentMessages, Has.Length.EqualTo(2));
+                Assert.That(handlerContext.PublishedMessages, Has.Length.EqualTo(2));
+                Assert.That(handlerContext.SentMessages, Has.Length.EqualTo(2));
 
                 Assert.That(handlerContext.DoNotContinueDispatchingCurrentMessageToHandlersWasCalled, Is.True);
             });
@@ -41,10 +41,10 @@
 
             Assert.Multiple(() =>
             {
-                Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
-                Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
-                Assert.That(pipelineContext.PublishedMessages.Length, Is.EqualTo(2));
-                Assert.That(pipelineContext.SentMessages.Length, Is.EqualTo(2));
+                Assert.That(uniformSession.PublishedMessages, Has.Length.EqualTo(2));
+                Assert.That(uniformSession.SentMessages, Has.Length.EqualTo(2));
+                Assert.That(pipelineContext.PublishedMessages, Has.Length.EqualTo(2));
+                Assert.That(pipelineContext.SentMessages, Has.Length.EqualTo(2));
 
                 Assert.That(pipelineContext.Headers["testHeader"], Is.EqualTo("testValue"));
             });
@@ -61,10 +61,10 @@
 
             Assert.Multiple(() =>
             {
-                Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
-                Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
-                Assert.That(messageSession.PublishedMessages.Length, Is.EqualTo(2));
-                Assert.That(messageSession.SentMessages.Length, Is.EqualTo(2));
+                Assert.That(uniformSession.PublishedMessages, Has.Length.EqualTo(2));
+                Assert.That(uniformSession.SentMessages, Has.Length.EqualTo(2));
+                Assert.That(messageSession.PublishedMessages, Has.Length.EqualTo(2));
+                Assert.That(messageSession.SentMessages, Has.Length.EqualTo(2));
             });
         }
 
@@ -76,7 +76,7 @@
 
             await reusableComponent.FireCommand();
 
-            Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(1));
+            Assert.That(uniformSession.SentMessages, Has.Length.EqualTo(1));
         }
 
         [Test]
@@ -87,7 +87,7 @@
 
             await reusableComponent.PublishEvent();
 
-            Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(1));
+            Assert.That(uniformSession.PublishedMessages, Has.Length.EqualTo(1));
         }
 
         class ReusableComponent
