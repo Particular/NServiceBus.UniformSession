@@ -21,7 +21,7 @@
                 .Run();
 
             Assert.AreSame(ctx.StartupUniformSession, ctx.ShutdownUniformSession);
-            Assert.AreEqual(2, ctx.HandlerInvocationCounter);
+            Assert.That(ctx.HandlerInvocationCounter, Is.EqualTo(2));
         }
 
         class Context : ScenarioContext

@@ -19,10 +19,10 @@
 
             await handler.Handle(new SomeCommand(), handlerContext);
 
-            Assert.AreEqual(2, uniformSession.PublishedMessages.Length);
-            Assert.AreEqual(2, uniformSession.SentMessages.Length);
-            Assert.AreEqual(2, handlerContext.PublishedMessages.Length);
-            Assert.AreEqual(2, handlerContext.SentMessages.Length);
+            Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
+            Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
+            Assert.That(handlerContext.PublishedMessages.Length, Is.EqualTo(2));
+            Assert.That(handlerContext.SentMessages.Length, Is.EqualTo(2));
 
             Assert.That(handlerContext.DoNotContinueDispatchingCurrentMessageToHandlersWasCalled, Is.True);
         }
@@ -36,12 +36,12 @@
 
             await behavior.Invoke(pipelineContext, () => Task.CompletedTask);
 
-            Assert.AreEqual(2, uniformSession.PublishedMessages.Length);
-            Assert.AreEqual(2, uniformSession.SentMessages.Length);
-            Assert.AreEqual(2, pipelineContext.PublishedMessages.Length);
-            Assert.AreEqual(2, pipelineContext.SentMessages.Length);
+            Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
+            Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
+            Assert.That(pipelineContext.PublishedMessages.Length, Is.EqualTo(2));
+            Assert.That(pipelineContext.SentMessages.Length, Is.EqualTo(2));
 
-            Assert.AreEqual("testValue", pipelineContext.Headers["testHeader"]);
+            Assert.That(pipelineContext.Headers["testHeader"], Is.EqualTo("testValue"));
         }
 
         [Test]
@@ -53,10 +53,10 @@
 
             await component.DoSomething(messageSession);
 
-            Assert.AreEqual(2, uniformSession.PublishedMessages.Length);
-            Assert.AreEqual(2, uniformSession.SentMessages.Length);
-            Assert.AreEqual(2, messageSession.PublishedMessages.Length);
-            Assert.AreEqual(2, messageSession.SentMessages.Length);
+            Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
+            Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
+            Assert.That(messageSession.PublishedMessages.Length, Is.EqualTo(2));
+            Assert.That(messageSession.SentMessages.Length, Is.EqualTo(2));
         }
 
         [Test]
@@ -67,7 +67,7 @@
 
             await reusableComponent.FireCommand();
 
-            Assert.AreEqual(1, uniformSession.SentMessages.Length);
+            Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(1));
         }
 
         [Test]
@@ -78,7 +78,7 @@
 
             await reusableComponent.PublishEvent();
 
-            Assert.AreEqual(1, uniformSession.PublishedMessages.Length);
+            Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(1));
         }
 
         class ReusableComponent
