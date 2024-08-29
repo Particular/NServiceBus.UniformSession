@@ -19,12 +19,15 @@
 
             await handler.Handle(new SomeCommand(), handlerContext);
 
-            Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
-            Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
-            Assert.That(handlerContext.PublishedMessages.Length, Is.EqualTo(2));
-            Assert.That(handlerContext.SentMessages.Length, Is.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
+                Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
+                Assert.That(handlerContext.PublishedMessages.Length, Is.EqualTo(2));
+                Assert.That(handlerContext.SentMessages.Length, Is.EqualTo(2));
 
-            Assert.That(handlerContext.DoNotContinueDispatchingCurrentMessageToHandlersWasCalled, Is.True);
+                Assert.That(handlerContext.DoNotContinueDispatchingCurrentMessageToHandlersWasCalled, Is.True);
+            });
         }
 
         [Test]
@@ -36,12 +39,15 @@
 
             await behavior.Invoke(pipelineContext, () => Task.CompletedTask);
 
-            Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
-            Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
-            Assert.That(pipelineContext.PublishedMessages.Length, Is.EqualTo(2));
-            Assert.That(pipelineContext.SentMessages.Length, Is.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
+                Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
+                Assert.That(pipelineContext.PublishedMessages.Length, Is.EqualTo(2));
+                Assert.That(pipelineContext.SentMessages.Length, Is.EqualTo(2));
 
-            Assert.That(pipelineContext.Headers["testHeader"], Is.EqualTo("testValue"));
+                Assert.That(pipelineContext.Headers["testHeader"], Is.EqualTo("testValue"));
+            });
         }
 
         [Test]
@@ -53,10 +59,13 @@
 
             await component.DoSomething(messageSession);
 
-            Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
-            Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
-            Assert.That(messageSession.PublishedMessages.Length, Is.EqualTo(2));
-            Assert.That(messageSession.SentMessages.Length, Is.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(uniformSession.PublishedMessages.Length, Is.EqualTo(2));
+                Assert.That(uniformSession.SentMessages.Length, Is.EqualTo(2));
+                Assert.That(messageSession.PublishedMessages.Length, Is.EqualTo(2));
+                Assert.That(messageSession.SentMessages.Length, Is.EqualTo(2));
+            });
         }
 
         [Test]

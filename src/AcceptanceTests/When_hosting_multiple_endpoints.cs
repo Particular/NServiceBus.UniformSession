@@ -23,9 +23,12 @@ namespace NServiceBus.UniformSession.AcceptanceTests
                 .Done(c => c.Endpoint1HandlerSession != null && c.Endpoint2HandlerSession != null)
                 .Run();
 
-            Assert.That(ctx.Endpoint2StartupSession, Is.Not.SameAs(ctx.Endpoint1StartupSession));
-            Assert.That(ctx.Endpoint2HandlerSession, Is.Not.SameAs(ctx.Endpoint1HandlerSession));
-            Assert.That(ctx.Endpoint1StartupSession, Is.Not.SameAs(ctx.Endpoint1HandlerSession));
+            Assert.Multiple(() =>
+            {
+                Assert.That(ctx.Endpoint2StartupSession, Is.Not.SameAs(ctx.Endpoint1StartupSession));
+                Assert.That(ctx.Endpoint2HandlerSession, Is.Not.SameAs(ctx.Endpoint1HandlerSession));
+                Assert.That(ctx.Endpoint1StartupSession, Is.Not.SameAs(ctx.Endpoint1HandlerSession));
+            });
             Assert.That(ctx.Endpoint2StartupSession, Is.Not.SameAs(ctx.Endpoint2HandlerSession));
         }
 

@@ -20,8 +20,11 @@
                 .Done(c => c.HandlerInvocationCounter >= 2)
                 .Run();
 
-            Assert.That(ctx.ShutdownUniformSession, Is.SameAs(ctx.StartupUniformSession));
-            Assert.That(ctx.HandlerInvocationCounter, Is.EqualTo(2));
+            Assert.Multiple(() =>
+            {
+                Assert.That(ctx.ShutdownUniformSession, Is.SameAs(ctx.StartupUniformSession));
+                Assert.That(ctx.HandlerInvocationCounter, Is.EqualTo(2));
+            });
         }
 
         class Context : ScenarioContext

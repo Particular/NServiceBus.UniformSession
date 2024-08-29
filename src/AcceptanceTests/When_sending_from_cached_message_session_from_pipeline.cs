@@ -22,9 +22,12 @@
                 .Done(c => c.SendException != null || c.Message2Received)
                 .Run();
 
-            Assert.That(ctx.Message1Received, Is.True);
-            Assert.That(ctx.Message2Received, Is.False);
-            Assert.That(ctx.SendException, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ctx.Message1Received, Is.True);
+                Assert.That(ctx.Message2Received, Is.False);
+                Assert.That(ctx.SendException, Is.Not.Null);
+            });
             StringAssert.Contains("This 'IUniformSession' instance belongs to an endpoint and cannot be used in the message handling pipeline. Usage of this 'IUniformSession' instance within a pipeline can lead to message duplication.", ctx.SendException.Message);
         }
 

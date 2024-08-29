@@ -20,8 +20,11 @@
                 .Done(c => c.FollowupCommandReceived)
                 .Run();
 
-            Assert.That(ctx.StartCommandReceived, Is.True);
-            Assert.That(ctx.FollowupCommandReceived, Is.True);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ctx.StartCommandReceived, Is.True);
+                Assert.That(ctx.FollowupCommandReceived, Is.True);
+            });
         }
 
         [Test]
@@ -41,8 +44,11 @@
                 .Done(c => c.ExceptionThrown)
                 .Run();
 
-            Assert.That(ctx.StartCommandReceived, Is.True);
-            Assert.That(ctx.FollowupCommandReceived, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ctx.StartCommandReceived, Is.True);
+                Assert.That(ctx.FollowupCommandReceived, Is.False);
+            });
         }
 
         class Context : ScenarioContext
