@@ -19,8 +19,8 @@
                 .Done(c => c.MessageHandled)
                 .Run();
 
-            Assert.AreSame(ctx.HandlerSession, ctx.ServiceASession);
-            Assert.AreSame(ctx.HandlerSession, ctx.ServiceBSession);
+            Assert.That(ctx.ServiceASession, Is.SameAs(ctx.HandlerSession));
+            Assert.That(ctx.ServiceBSession, Is.SameAs(ctx.HandlerSession));
         }
 
         class Context : ScenarioContext

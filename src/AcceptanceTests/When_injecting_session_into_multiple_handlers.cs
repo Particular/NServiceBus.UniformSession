@@ -18,7 +18,7 @@
                 .Done(c => c.Handler1Session != null && c.Handler2Session != null)
                 .Run();
 
-            Assert.AreSame(ctx.Handler1Session, ctx.Handler2Session);
+            Assert.That(ctx.Handler2Session, Is.SameAs(ctx.Handler1Session));
         }
 
         class Context : ScenarioContext
