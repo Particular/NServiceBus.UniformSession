@@ -23,10 +23,13 @@ namespace NServiceBus.UniformSession.AcceptanceTests
                 .Done(c => c.Endpoint1HandlerSession != null && c.Endpoint2HandlerSession != null)
                 .Run();
 
-            Assert.AreNotSame(ctx.Endpoint1StartupSession, ctx.Endpoint2StartupSession);
-            Assert.AreNotSame(ctx.Endpoint1HandlerSession, ctx.Endpoint2HandlerSession);
-            Assert.AreNotSame(ctx.Endpoint1HandlerSession, ctx.Endpoint1StartupSession);
-            Assert.AreNotSame(ctx.Endpoint2HandlerSession, ctx.Endpoint2StartupSession);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ctx.Endpoint2StartupSession, Is.Not.SameAs(ctx.Endpoint1StartupSession));
+                Assert.That(ctx.Endpoint2HandlerSession, Is.Not.SameAs(ctx.Endpoint1HandlerSession));
+                Assert.That(ctx.Endpoint1StartupSession, Is.Not.SameAs(ctx.Endpoint1HandlerSession));
+            });
+            Assert.That(ctx.Endpoint2StartupSession, Is.Not.SameAs(ctx.Endpoint2HandlerSession));
         }
 
         class Context : ScenarioContext
