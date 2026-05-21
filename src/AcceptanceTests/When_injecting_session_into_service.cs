@@ -14,8 +14,15 @@
         public async Task Should_inject_same_session_to_all_services_resolved_from_pipeline()
         {
             var ctx = await Scenario.Define<Context>()
-                .WithEndpoint<EndpointWithServices>(e => e
-                    .When(s => s.SendLocal(new DummyMessage())))
+                .WithEndpoint<EndpointWithServices>(e =>
+                {
+                    e.Services(services =>
+                    {
+                        services.AddTransient<EndpointWithServices.ServiceA>();
+                        services.AddScoped<EndpointWithServices.ServiceB>();
+                    });
+                    e.When(s => s.SendLocal(new DummyMessage()));
+                })
                 .Done(c => c.MessageHandled)
                 .Run();
 
@@ -36,19 +43,11 @@
 
         class EndpointWithServices : EndpointConfigurationBuilder
         {
-            public EndpointWithServices()
-            {
+            public EndpointWithServices() =>
                 EndpointSetup<DefaultServer>(e =>
                 {
                     e.EnableUniformSession();
-
-                    e.RegisterComponents(r =>
-                    {
-                        r.AddTransient<ServiceA>();
-                        r.AddScoped<ServiceB>();
-                    });
                 });
-            }
 
             public class DummyMessageHandler : IHandleMessages<DummyMessage>
             {

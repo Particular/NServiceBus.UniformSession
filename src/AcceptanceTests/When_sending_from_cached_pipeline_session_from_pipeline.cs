@@ -15,8 +15,12 @@
         public async Task Should_throw_when_sending()
         {
             var ctx = await Scenario.Define<Context>()
-                .WithEndpoint<EndpointCachingSession>(e => e
-                    .When(s => s.SendLocal(new Message1())))
+                .WithEndpoint<EndpointCachingSession>(e =>
+                {
+                    // this will cause the resolved dependency to be cached across multiple pipeline invocations
+                    e.Services(services => services.AddSingleton<EndpointCachingSession.SingletonService>());
+                    e.When(s => s.SendLocal(new Message1()));
+                })
                 .Done(c => c.SendException != null || c.Message3Received)
                 .Run();
 
@@ -40,17 +44,8 @@
 
         class EndpointCachingSession : EndpointConfigurationBuilder
         {
-            public EndpointCachingSession()
-            {
-                EndpointSetup<DefaultServer>(e =>
-                {
-                    e.EnableUniformSession();
-
-                    e.RegisterComponents(c => c
-                        // this will cause the resolved dependency to be cached across multiple pipeline invocations
-                        .AddSingleton<SingletonService>());
-                });
-            }
+            public EndpointCachingSession() =>
+                EndpointSetup<DefaultServer>(e => e.EnableUniformSession());
 
             public class Handler1 : IHandleMessages<Message1>
             {
